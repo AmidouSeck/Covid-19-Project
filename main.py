@@ -111,33 +111,60 @@ def destroyChButton():
 
 #AUTH FOR DATA EXPLORER FRAME
 
-def on_tab_selected(event):
-    selected_tab = event.widget.select()
-    tab_text = event.widget.tab(selected_tab, "text")
-    if tab_text == "DATA EXPLORER":
-        global user_id
-        global user_password
-        exploreFrame = Frame(home, width=300, height=130, bg="#8ac4d0", bd=6, relief="ridge")
-        exploreFrame.grid_propagate(0)
-        exploreFrame.update()
-        frameLoaderRight.update()
-        home.update()
-        exploreFrame.place(x=widthOfWindow/2-150, y=heightOfWindow/2-65)
-        labId = Label(exploreFrame, text="Identifiant", bg="#8ac4d0")
-        labPassword = Label(exploreFrame, text="Password", bg="#8ac4d0")
-        entId = Entry(exploreFrame, width=30 , textvariable = user_id)
-        entId.focus_set()
-        entPass = Entry(exploreFrame, width= 30, textvariable = user_password, show="*")
-        buttonOK = Button(exploreFrame, text="   OK   ", command= load)
-        buttonAbort = Button(exploreFrame, text="   Cancel   ", command=exploreFrame.destroy)
-        labId.grid(row=0, column=0, pady=10, padx=15)
-        entId.grid(row=0, column=1)
-        labPassword.grid(row=1, column=0)
-        entPass.grid(row=1, column=1)
-        exploreFrame.update()
-        buttonOK.update()
-        buttonOK.place(x=exploreFrame.winfo_width()/3, y= exploreFrame.winfo_height()*0.7)
-        buttonAbort.place(x=exploreFrame.winfo_width()/2-buttonOK.winfo_width(), y= exploreFrame.winfo_height)
+def DrawExploreAuthFrame():
+    global user_id
+    global user_password
+    global exploreFrame
+    exploreFrame = Frame(home, width=300, height=130, bg="#8ac4d0", bd=6, relief="ridge")
+    exploreFrame.grid_propagate(0)
+    exploreFrame.update()
+    frameLoaderRight.update()
+    home.update()
+    exploreFrame.place(x=widthOfWindow/2-150, y=heightOfWindow/2-65)
+    labId = Label(exploreFrame, text="Identifiant", bg="#8ac4d0")
+    labPassword = Label(exploreFrame, text="Password", bg="#8ac4d0")
+    entId = Entry(exploreFrame, width=30 , textvariable = user_id)
+    entId.focus_set()
+    entPass = Entry(exploreFrame, width= 30, textvariable = user_password, show="*")
+    buttonOK = Button(exploreFrame, text=" OK ", command= logExplore)
+    buttonAbort = Button(exploreFrame, text=" Cancel ", command=exploreFrame.destroy)
+    labId.grid(row=0, column=0, pady=10, padx=15)
+    entId.grid(row=0, column=1)
+    labPassword.grid(row=1, column=0)
+    entPass.grid(row=1, column=1)
+    exploreFrame.update()
+    buttonOK.update()
+    buttonOK.place(x=exploreFrame.winfo_width()/3, y= exploreFrame.winfo_height()*0.7)
+    buttonAbort.place(x=exploreFrame.winfo_width() / 2 - buttonOK.winfo_width(), y=exploreFrame.winfo_height() * 0.7)
+
+# explore function
+def explore():
+    os.system('python explore.py')
+
+#exlpore auth
+def logExplore():
+    if user_id.get() == "" or user_password.get() == "":
+        messagebox.showerror("Erreur", "Veillez entrer un ID et un mot de passe", parent=frameLoaderRight)
+    else :
+
+        try:
+            global  con
+            global  cur
+            con = pymysql.connect(host="localhost", user="root", password="", database="mysql")
+            cur = con.cursor()
+            cur.execute("select user from user where user='"+user_id.get()+"' and authentication_string= CONCAT('*',UPPER(SHA1(UNHEX(SHA1('"+user_password.get()+"')))))")
+            row = cur.fetchone()
+            if row == None:
+                messagebox.showerror("Erreur", "Identifiant ou mot de passe invalide", parent=home)
+
+            else:
+                exploreFrame.destroy()
+            explore()
+            # loader()
+            con.close()
+        except Exception as es:
+            messagebox.showerror("Error", f"Erreur due a : {str(es)}", parent=home)
+
 def DrawImportAuthFrame():
     global user_id
     global user_password
@@ -382,7 +409,6 @@ label_covid.place(x=getWidth(40), y=getHeight(1))
 
 #Tabs
 my_notebook = ttk.Notebook(home)
-my_notebook.bind("<<NoteBookTabChanged>>", on_tab_selected)
 frameLoader = Frame(my_notebook, width= getWidth(80), height=getHeight(80),bg="#28527a")
 frameExplorer = Frame(my_notebook, width= getWidth(80), height=getHeight(80), bg="gray")
 frameAnalyser = Frame(my_notebook, width= getWidth(80), height=getHeight(80), bg="gray")
@@ -435,8 +461,17 @@ buttonSelectAll.place(x=500, y=frameLoaderRight.winfo_height()/2-50)
 buttonDeselect.place(x=500, y=frameLoaderRight.winfo_height() / 2)
 
 
-#Frame explorer design
-# my_notebook.bind("<<NoteBookTabChanged>>", on_tab_selected)
+# Frame explorer
+
+buttonExecute = Button(frameExplorer, text="Explore", command= DrawExploreAuthFrame)
+frameExplorer.update()
+buttonExecute.place(x=widthOfWindow/2-150,  y=heightOfWindow/2-110)
+explorerLabel = Label(frameExplorer, text='Click button to explore data in the map')
+explorerLabel.place(x=getWidth(40)-100, y=getHeight(1))
+# explorerLabel.grid(row=0, columnspan=2, pady=15, padx = 15)
+# buttonExecute.grid(row=1, column = 0)
+# frameExplorer.grid(row = 1, column = 0)
+
 
 
 home.mainloop()
