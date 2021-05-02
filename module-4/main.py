@@ -4,7 +4,7 @@ from Loader import *
 
 # x axis values
 p = Loader()
-res = p.progressionGenerale("testRealises")
+res = p.progressionParRegion("touba")
 print(res)
 x = res[0]
 y = res[1]
