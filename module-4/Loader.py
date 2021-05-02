@@ -33,5 +33,5 @@ class Loader:
         return [outputMois,output]
 
 p = Loader()
-res = p.progressionParRegion("touba")
+res = p.progressionParRegion("Dakar")
 print(res)
