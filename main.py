@@ -139,6 +139,7 @@ def DrawExploreAuthFrame():
 
 # explore function
 def explore():
+    exploreFrame.destroy()
     os.system('python explore.py')
 
 #exlpore auth
@@ -158,12 +159,21 @@ def logExplore():
                 messagebox.showerror("Erreur", "Identifiant ou mot de passe invalide", parent=home)
 
             else:
+                messagebox.showinfo("Réussi", "Vous pouvez explorer les données", parent=home)
                 exploreFrame.destroy()
-            explore()
+            waithere()
+
             # loader()
             con.close()
+            explore()
         except Exception as es:
-            messagebox.showerror("Error", f"Erreur due a : {str(es)}", parent=home)
+            messagebox.showerror("Erreur", f"Erreur due a : {str(es)}", parent=home)
+
+def waithere():
+    var = IntVar()
+    home.after(3000, var.set, 1)
+    print("waiting...")
+    home.wait_variable(var)
 
 def DrawImportAuthFrame():
     global user_id

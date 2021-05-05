@@ -14,7 +14,9 @@ mydb = mysql.connector.connect(
 )
 
 mycursor = mydb.cursor()
-
+global annee
+global mois
+global jour
 def afficher_sql(annee,mois,jour):
     query = f"select l.* from localite l  inner join communique c  using(id_localite) where c.date = '{annee}/{mois}/{jour}' limit 1;"
     print(query)
@@ -38,7 +40,9 @@ def afficher_sql(annee,mois,jour):
 #                 l = month["localites"][0]
 #                 return l
 
-localites = afficher_sql(2020,4,16)
+# req1 = f"select l.annee from localite l  inner join communique ;"
+
+localites = afficher_sql(annee,mois,jour)
 print(localites)
 map_dict = []
 file = os.path.join("senegal_administrative","senegal_administrative.shp")
