@@ -31,6 +31,7 @@ image_label.pack()
 #global variable
 global chBList
 chBList = []
+dateCom = []
 chbudraw = False
 savePoint = "P1"
 user_id = StringVar()
@@ -68,6 +69,9 @@ def checkboxDraw(days):
         else:
             chBList[i].place(x=400, y=right)
             right += 30
+    # Affichage des buttons SelectAll et DeselectAll
+    buttonSelectAll.configure(state=NORMAL)
+    buttonDeselect.configure(state=NORMAL)
 
 #function getSize()
 def getWidth(p):
@@ -80,10 +84,10 @@ def getHeight(p):
 def browseFiles():
     filename = filedialog.askopenfilename(initialdir="/",
                                           title="Select a File",
-                                          filetypes=(("Json files",
-                                                      "*.json"),
-                                                     ("xml files",
-                                                      "*.xml")))
+                                          filetypes=(("JSON files",
+															"*.json"),
+														("XML files",
+															"*.xml")))
 
     # Change label contents
     labfilename.configure(text="File Opened: " + filename)
@@ -198,7 +202,6 @@ def extractData(date):
     sqlQuery(selectedData)
 
 def sqlQuery(*args):
-    # print(f"in sqlQuery: {cur}")
     global con
     global cur
     if len(args) == 0:
@@ -207,13 +210,10 @@ def sqlQuery(*args):
         data = args[0]
         if chbutton.get() == 1:
             print("transaction mode")
-            # sqlTransact = "start transaction"
-            # sqlsave = f"savepoint {savePoint}"
-            # cur.execute(sqlTransact)
-            # cur.execute(sqlsave)
+            global dateCom
+
 
         for d in data:
-
             dateOld = d["date"]
             #convert date
             date = dateOld[6:]+"-"+dateOld[3:5]+"-"+dateOld[:2]
@@ -225,52 +225,34 @@ def sqlQuery(*args):
             casCommunautaires = d["casCommunautaires"]
             casGueris = d["casGueris"]
             deces = d["deces"]
-            localites = d["localites"][0]
-            dakar = localites["Dakar"]
-            # thies = localites["Thiès"]
-            # print(thies)
-            thies = 0
-            diourbel = localites["Diourbel"]
-            fatick = localites["Fatick"]
-            kaolack = localites["Kaolack"]
-            kaffrine = localites["Kaffrine"]
-            touba = localites["Touba"]
-            kolda = localites["Kolda"]
-            tamba = localites["Tamba"]
-            ziguinchor = localites["Ziguinchor"]
-            saintLouis = localites["Saint-Louis"]
-            matam = localites["Matam"]
-            # sedhiou = localites["Sédhiou"]
-            sedhiou = 0
-            # kedougou = localites["Kedougou"]
-            # louga = localites["Louga"]
-            # tambacounda = localites["Tambacounda"]
-            kedougou = 0
-            louga = 0
-            tambacounda = 0
 
-            sql1 = f"insert into localite values(null,{dakar},{thies},{diourbel},{fatick},{kaolack},{kaffrine},{touba},{kolda},{tamba},{ziguinchor},{saintLouis},{matam},{sedhiou},{kedougou},{louga},{tambacounda})"
-            sql2=f"insert into communique values('{date}',{casPositifs},{casImportes},{casContacts},{testRealises},{sousTraitement},{casCommunautaires},{casGueris},{deces},(select id_localite from localite order by id_localite desc limit 1))"
-            # insertData(sql1,sql2, cur)
+            localites = d["localites"][0]
+            print(localites)
+
+            sql1=f"insert into communique values('{date}',{casPositifs},{casImportes},{casContacts},{testRealises},{sousTraitement},{casCommunautaires},{casGueris},{deces})"
+
             try:
-                cur.execute("select * from communique order by date desc limit 1")
-                result = cur.fetchone()
-                print(f"before: {result}")
                 cur.execute(sql1)
-                cur.execute(sql2)
+                if chbutton.get() == 1:
+                    dateCom.append(date)
             except Exception as e:
                 messagebox.showerror("Error in sqlQuery", f"Erreur in sqlQuery  due a : {str(e)}", parent=home)
-        if chbutton.get() == 0:
-            con.commit()
-            messagebox.showinfo("Success", "Importation vers la base reusi", parent=home)
-            deselectAll()
-        else:
-            cur.execute("select * from communique order by date desc limit 1")
-            result = cur.fetchone()
-            print(f"after: {result}")
-            # enable validate and cancel buttons
-            buttonValid.configure(state=tk.NORMAL)
-            buttonCancel.configure(state=tk.NORMAL)
+            for name, value in localites.items():
+                print(f"{name}: {value}\t")
+                sql2 = f"insert into localites values(null,'{name}',{value})"
+                try:
+                    cur.execute(sql2)
+                    # Apres insertion dans localites on recupere id_localite et l'inserer dans ligne_com_local
+                    sql3 = f"insert into ligne_com_local values('{date}', (select id_localite from localites order by id_localite desc limit 1))"
+                    cur.execute(sql3)
+                except Exception as e:
+                    messagebox.showerror("Error in sqlQuery", f"Erreur in sqlQuery  due a : {str(e)}", parent=home)
+        con.commit()
+        messagebox.showinfo("Success", "Importation vers la base reusi", parent=home)
+        deselectAll()
+        # enable validate and cancel buttons
+        # buttonValid.configure(state=tk.NORMAL)
+        buttonCancel.configure(state=NORMAL)
 
 def getMysqlConn():
     global curs
@@ -317,8 +299,14 @@ def cancels():
             con = pymysql.connect(host="localhost", user=user_id.get(), password=user_password.get(), database="covid",
                                   port=3308)
             cur = con.cursor()
-            sql = "rollback"
-            cur.execute(sql)
+            for date in dateCom:
+                sql = f"DELETE FROM communique, localite USING communique INNER JOIN localite WHERE date = '{date}' AND localite.id_localite = communique.id_localite"
+                print(sql)
+                cur.execute(sql)
+                con.commit()
+                dateCom.clear()
+                print(f"List {dateCom}")
+            messagebox.showinfo("Success", "L'annulation reussi", parent=home)
         except Exception as e:
             messagebox.showerror("Error", f"Erreur due a : {str(e)}", parent=home)
     else:
@@ -330,9 +318,9 @@ def chBListener():
         if chBvar[i].get() == 1:
             checked = True
     if checked == True:
-        buttonImport.configure(state= tk.NORMAL)
+        buttonImport.configure(state= NORMAL)
     else:
-        buttonImport.configure(state= tk.DISABLED)
+        buttonImport.configure(state= DISABLED)
 
 
 #Bar de menu
@@ -391,11 +379,11 @@ frameLoaderRight.pack_propagate(0)
 frameLoaderRight.update()
 labImpDays = Label(frameLoaderRight, text="Select day(s) to import",bg="#28527a",fg="white")
 labImpDays.place(x=frameLoaderRight.winfo_width()/2, y=20)
-buttonImport = Button(frameLoaderRight, text="  Import  ", command=DrawImportAuthFrame, bg="#28527a", fg="white", state=tk.DISABLED)
-buttonValid = Button(frameLoaderRight, text="  Validate  ", command=sqlQuery ,bg="#28527a",fg="white", state=tk.DISABLED)
+buttonImport = Button(frameLoaderRight, text="  Import  ", command=DrawImportAuthFrame, bg="#28527a", fg="white", state=DISABLED)
+buttonValid = Button(frameLoaderRight, text="  Validate  ", command=sqlQuery ,bg="#28527a",fg="white", state=DISABLED)
 buttonCancel = Button(frameLoaderRight, text= "  Cancel  ",bg="#28527a",fg="white", command=cancels, state=DISABLED)
-buttonSelectAll = Button(frameLoaderRight, text= "    Select All    ",bg="#28527a",fg="white", command=selectAll)
-buttonDeselect = Button(frameLoaderRight, text=" Deselect All  ", bg="#28527a", fg="white", command=deselectAll)
+buttonSelectAll = Button(frameLoaderRight, text= "    Select All    ",bg="#28527a",fg="white", command=selectAll, state= DISABLED)
+buttonDeselect = Button(frameLoaderRight, text=" Deselect All  ", bg="#28527a", fg="white", command=deselectAll, state=DISABLED)
 
 
 
