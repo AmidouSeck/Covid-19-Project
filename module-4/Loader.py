@@ -1,4 +1,6 @@
 import mysql.connector
+regions = ["Dakar","Thies","Diourbel","Fatick","Kaolack","Kaffrine","Touba","Kolda","Tamba","Ziguinchor","SaintLouis","Matam","Sedhiou","Kedougou","Louga","Tambacounda"]
+
 class Loader:
     def afficher(self,query):
         mydb = mysql.connector.connect(
@@ -31,7 +33,28 @@ class Loader:
         for x in donne:
             output.append(float(x[0]))
         return [outputMois,output]
-
+    def progressionCasRegion(self,region,annee = "2020"):
+        res = self.progressionParRegion(region,annee)
+        mois = res[0]
+        x = res[1]
+        y = res[1]
+        differences = []
+        y.append(0)
+        i = 0
+        while i < len(x) - 1:
+            differences.append(abs(x[i] - y[i+1]))
+            i = i + 1
+        return [mois,differences]
+    def getClosestRegion(self,region):
+        region = region.capitalize()
+        regions = self.afficher(f"select g2.region from geo g,geo g2 where g.region = '{region}' and g.region != g2.region order by st_distance(g.coor,g2.coor)")
+        result = []
+        for x in regions:
+            result.append(str(x[0]))
+        return result
 p = Loader()
-res = p.progressionParRegion("Dakar")
-print(res)
+result = p.getClosestRegion("Dakar")
+print(result)
+
+
+
