@@ -32,12 +32,12 @@ class Carte:
         self.def_geo = gpd.GeoDataFrame(cities,geometry = gpd.points_from_xy(cities.lng,cities.lat))
         self.def_geo.plot(ax = self.axis,color = "red")
     def addSliders(self):
-        axSlider1 = plt.axes([0.1,0.7,0.8,0.02])
-        axSlider2 = plt.axes([0.1,0.8,0.8,0.02])
-        axSlider3 = plt.axes([0.1,0.9,0.8,0.02])
+        axSlider1 = plt.axes([0.1,0.85,0.8,0.02])
+        axSlider2 = plt.axes([0.1,0.87,0.8,0.02])
+        axSlider3 = plt.axes([0.1,0.89,0.8,0.02])
         self.BarreMois = Slider(axSlider1,"Mois",valmin = 1, valmax = 12,valfmt="%0.0f")
         self.BarreAnnee = Slider(axSlider2,"Annee",valmin = 2019, valmax = 2021,valfmt="%0.0f")
-        self.BarreJour=  Slider(axSlider3,"Jour",valmin = 2019, valmax = 2021,valfmt="%0.0f")
+        self.BarreJour=  Slider(axSlider3,"Jour",valmin = 1, valmax = 31,valfmt="%0.0f")
         def setMois(val):
             self.mois = int(val)
             self.afficher_sql(self.annee,self.mois,self.jour)
@@ -84,12 +84,11 @@ class Carte:
         print(query)
         self.mycursor.execute(query)
         myresult = self.mycursor.fetchall()
-        names = self.mycursor.column_names
         self.mydict = {}
-        j = 1
-        while j < len(self.mycursor.description):
-            self.mydict[f"{names[j]}"] = myresult[0][j]
-            j += 1
+        for x in myresult:
+            self.mydict[f"{x[0]}"] = x[1]
+        print(self.mydict)
+
 
 c = Carte()
 

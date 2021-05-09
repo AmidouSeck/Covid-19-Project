@@ -36,7 +36,7 @@ chbudraw = False
 savePoint = "P1"
 user_id = StringVar()
 user_password = StringVar()
-con =  pymysql.connect(host="localhost", user="root", password="", database="covid", connect_timeout=28800)
+con =  pymysql.connect(host="localhost", user="root", password="", database="corona", connect_timeout=28800)
 cur = con.cursor()
 # con.query('SET GLOBAL connect_timeout=28800')
 # con.query('SET GLOBAL interactive_timeout=28800')
@@ -144,7 +144,8 @@ def DrawExploreAuthFrame():
 # explore function
 def explore():
     exploreFrame.destroy()
-    os.system('python explore.py')
+    path_explore = os.path.join("module-3","explore.py")
+    os.system(f'python {path_explore}')
 
 #exlpore auth
 def logExplore():
