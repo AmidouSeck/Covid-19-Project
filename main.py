@@ -36,7 +36,7 @@ chbudraw = False
 savePoint = "P1"
 user_id = StringVar()
 user_password = StringVar()
-con =  pymysql.connect(host="localhost", user="root", password="", database="covid", port=3308, connect_timeout=28800)
+con =  pymysql.connect(host="localhost", user="root", password="", database="covid", connect_timeout=28800)
 cur = con.cursor()
 # con.query('SET GLOBAL connect_timeout=28800')
 # con.query('SET GLOBAL interactive_timeout=28800')
@@ -113,6 +113,71 @@ def destroyChButton():
         for chB in chBList:
             chB.destroy()
 
+#AUTH FOR DATA EXPLORER FRAME
+
+def DrawExploreAuthFrame():
+    global user_id
+    global user_password
+    global exploreFrame
+    exploreFrame = Frame(home, width=300, height=130, bg="#8ac4d0", bd=6, relief="ridge")
+    exploreFrame.grid_propagate(0)
+    exploreFrame.update()
+    frameLoaderRight.update()
+    home.update()
+    exploreFrame.place(x=widthOfWindow/2-150, y=heightOfWindow/2-65)
+    labId = Label(exploreFrame, text="Identifiant", bg="#8ac4d0")
+    labPassword = Label(exploreFrame, text="Password", bg="#8ac4d0")
+    entId = Entry(exploreFrame, width=30 , textvariable = user_id)
+    entId.focus_set()
+    entPass = Entry(exploreFrame, width= 30, textvariable = user_password, show="*")
+    buttonOK = Button(exploreFrame, text=" OK ", command= logExplore)
+    buttonAbort = Button(exploreFrame, text=" Cancel ", command=exploreFrame.destroy)
+    labId.grid(row=0, column=0, pady=10, padx=15)
+    entId.grid(row=0, column=1)
+    labPassword.grid(row=1, column=0)
+    entPass.grid(row=1, column=1)
+    exploreFrame.update()
+    buttonOK.update()
+    buttonOK.place(x=exploreFrame.winfo_width()/3, y= exploreFrame.winfo_height()*0.7)
+    buttonAbort.place(x=exploreFrame.winfo_width() / 2 - buttonOK.winfo_width(), y=exploreFrame.winfo_height() * 0.7)
+
+# explore function
+def explore():
+    exploreFrame.destroy()
+    os.system('python explore.py')
+
+#exlpore auth
+def logExplore():
+    if user_id.get() == "" or user_password.get() == "":
+        messagebox.showerror("Erreur", "Veillez entrer un ID et un mot de passe", parent=frameLoaderRight)
+    else :
+
+        try:
+            global  con
+            global  cur
+            con = pymysql.connect(host="localhost", user="root", password="", database="mysql")
+            cur = con.cursor()
+            cur.execute("select user from user where user='"+user_id.get()+"' and authentication_string= CONCAT('*',UPPER(SHA1(UNHEX(SHA1('"+user_password.get()+"')))))")
+            row = cur.fetchone()
+            if row == None:
+                messagebox.showerror("Erreur", "Identifiant ou mot de passe invalide", parent=home)
+
+            else:
+                messagebox.showinfo("Réussi", "Vous pouvez explorer les données", parent=home)
+                exploreFrame.destroy()
+            waithere()
+
+            # loader()
+            con.close()
+            explore()
+        except Exception as es:
+            messagebox.showerror("Erreur", f"Erreur due a : {str(es)}", parent=home)
+
+def waithere():
+    var = IntVar()
+    home.after(3000, var.set, 1)
+    print("waiting...")
+    home.wait_variable(var)
 
 def DrawImportAuthFrame():
     global user_id
@@ -151,7 +216,7 @@ def load():
         try:
             global  con
             global  cur
-            con = pymysql.connect(host="localhost", user="root", password="", database="mysql", port=3308)
+            con = pymysql.connect(host="localhost", user="root", password="", database="mysql")
             cur = con.cursor()
             cur.execute("select user from user where user='"+user_id.get()+"' and authentication_string= CONCAT('*',UPPER(SHA1(UNHEX(SHA1('"+user_password.get()+"')))))")
             row = cur.fetchone()
@@ -258,7 +323,7 @@ def getMysqlConn():
     global curs
     if  curs is None or curs.connection.close:
         try:
-           curs = pymysql.connect(host="localhost", user=user_id.get(), password=user_password.get(), database="covid", port=3308).cursor()
+           curs = pymysql.connect(host="localhost", user=user_id.get(), password=user_password.get(), database="covid").cursor()
            return curs
         except Exception as e:
             messagebox.showerror("Error", f"Erreur due a : {str(e)}", parent=home)
@@ -394,6 +459,16 @@ buttonSelectAll.place(x=500, y=frameLoaderRight.winfo_height()/2-50)
 buttonDeselect.place(x=500, y=frameLoaderRight.winfo_height() / 2)
 
 
+# Frame explorer
+
+buttonExecute = Button(frameExplorer, text="Explore", command= DrawExploreAuthFrame)
+frameExplorer.update()
+buttonExecute.place(x=widthOfWindow/2-150,  y=heightOfWindow/2-110)
+explorerLabel = Label(frameExplorer, text='Click button to explore data in the map')
+explorerLabel.place(x=getWidth(40)-100, y=getHeight(1))
+# explorerLabel.grid(row=0, columnspan=2, pady=15, padx = 15)
+# buttonExecute.grid(row=1, column = 0)
+# frameExplorer.grid(row = 1, column = 0)
 
 
 
