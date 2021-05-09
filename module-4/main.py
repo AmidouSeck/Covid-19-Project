@@ -13,17 +13,17 @@ y = res[1]
 plt.plot(x, y)
 
 
-res = p.progressionCasRegion("touba")
-x = res[0]
-y = res[1]
+# res = p.progressionCasRegion("touba")
+# x = res[0]
+# y = res[1]
 
-plt.plot(x,y)
+# plt.plot(x,y)
 
-res = p.progressionGenerale("casPositifs")
-x = res[0]
-y = res[1]
+# res = p.progressionGenerale("casPositifs")
+# x = res[0]
+# y = res[1]
 
-plt.plot(x,y)
+# plt.plot(x,y)
 # naming the x axis
 plt.xlabel('mois')
 # naming the y axis
