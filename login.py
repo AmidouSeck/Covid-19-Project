@@ -6,6 +6,8 @@ import pymysql
 
 
 # global
+from PIL import ImageTk, Image
+
 win = Tk()
 widthOfScreen = win.winfo_screenwidth()
 heightOfScreen = win.winfo_screenheight()
@@ -16,6 +18,9 @@ y_coordinate = (heightOfScreen / 2) - (heightOfWindow / 2)
 win.title('COVID 19 MODELER')
 win.geometry("%dx%d+%d+%d" % (widthOfWindow, heightOfWindow, x_coordinate, y_coordinate))
 win.iconbitmap('image\\icon.ico')
+my_image = ImageTk.PhotoImage(Image.open('image\\homePage.jpg'))
+image_label= Label(image= my_image, width=widthOfWindow, height=heightOfWindow)
+image_label.pack()
 
 # Functions
 # def home
@@ -63,13 +68,13 @@ def disconnect():
 
 # heading label
 
-heading = Label(win, text="AUTHENTIFICATION", font='Verdana 25 bold')
+heading = Label(win, text="AUTHENTIFICATION", font='Verdana 30 bold')
 heading.place(x=widthOfWindow/2 -200, y= heightOfWindow/2 -200)
 
-username = Label(win, text="Identifiant:", font='Verdana 10 bold')
+username = Label(win, text="Login ID:", font='Verdana 10 bold')
 username.place(x=widthOfWindow/2 -200, y=heightOfWindow/2 -80)
 
-userpass = Label(win, text="Mot de passe:", font='Verdana 10 bold')
+userpass = Label(win, text="Password:", font='Verdana 10 bold')
 userpass.place(x=widthOfWindow/2 -200, y=heightOfWindow/2 -40)
 
 # Entry Box

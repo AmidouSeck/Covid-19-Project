@@ -44,6 +44,22 @@ cur = con.cursor()
 
 # Functions
 
+# help function
+
+def helper():
+    messagebox.showinfo("Aide", "Texte aide", parent=home)
+
+
+# About function
+def about():
+    messagebox.showinfo("About", "Texte Info", parent=home)
+
+
+def disconnect():
+    home.destroy()
+    path_explore = os.path.join(os.getcwd(), "login.py")
+    os.system(f'python {path_explore}')
+
 
 def checkboxDraw(days):
     chbudraw = True
@@ -188,7 +204,7 @@ def logExplore():
 
 def waithere():
     var = IntVar()
-    home.after(3000, var.set, 1)
+    home.after(1000, var.set, 1)
     print("waiting...")
     home.wait_variable(var)
 
@@ -415,11 +431,11 @@ def chBListener():
 menubar = Menu(home)
 filemenu = Menu(menubar, tearoff=0)
 menu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="Deconnexion")
+filemenu.add_command(label="Deconnexion", command=disconnect)
 filemenu.add_command(label="Quitter", command=home.quit)
 menubar.add_cascade(label="Menu", menu=filemenu)
 helpmenu = Menu(menubar, tearoff=0)
-helpmenu.add_command(label="Help")
+helpmenu.add_command(label="Help", command=helper)
 helpmenu.add_command(label="About")
 menubar.add_cascade(label="Help", menu=helpmenu)
 home.config(menu=menubar)
