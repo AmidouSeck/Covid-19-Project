@@ -24,8 +24,8 @@ class Carte:
             print(self.an)
             i += 1
     def plotMap(self):
-        file = os.path.join("senegal_administrative","senegal_administrative.shp")
-        cities_file = os.path.join("senegal_administrative","sn.csv")
+        file = os.path.join(os.getcwd(),"module-3","senegal_administrative","senegal_administrative.shp")
+        cities_file = os.path.join(os.getcwd(), "module-3","senegal_administrative","sn.csv")
         cities = pd.read_csv(cities_file)
         map = gpd.read_file(file)
         self.axis = map.plot(color='lightblue',figsize = (20,20),linewidth=1,edgecolor = "black")
