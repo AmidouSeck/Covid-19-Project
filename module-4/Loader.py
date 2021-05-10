@@ -1,4 +1,8 @@
 import mysql.connector
+import matplotlib.pyplot as plt
+import pandas as pd
+import geopandas as gpd
+
 regions = ["Dakar","Thies","Diourbel","Fatick","Kaolack","Kaffrine","Touba","Kolda","Tamba","Ziguinchor","SaintLouis","Matam","Sedhiou","Kedougou","Louga","Tambacounda"]
 
 class Loader:
@@ -25,7 +29,7 @@ class Loader:
     def progressionParRegion(self,region,annee = "2020"):
         region = region.capitalize()
         mois = self.afficher("select distinct MONTH(date) from communique order by MONTH(date)")
-        donne = self.afficher(f"select sum({region}) {region} from localite l inner join communique c using(id_localite) where YEAR(c.date) = {annee} group by MONTH(c.date)")
+        donne = self.afficher(f"select sum(l.nbCas) {region} from localites l inner join ligne_com_local lcl using(id_localite) inner join communique c using (date) where YEAR(c.date) = '{annee}' and l.nom = '{region}' group by MONTH(c.date);")
         output = []
         outputMois = []
         for x in mois:
@@ -53,8 +57,11 @@ class Loader:
         for x in regions:
             result.append(str(x[0]))
         return result
+    def showMap(self):
+        return 0
+
 p = Loader()
-result = p.getClosestRegion("Dakar")
+result = p.progressionParRegion("Touba")
 print(result)
 
 
