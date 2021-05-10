@@ -36,7 +36,7 @@ chbudraw = False
 savePoint = "P1"
 user_id = StringVar()
 user_password = StringVar()
-con =  pymysql.connect(host="localhost", user="root", password="", database="corona", connect_timeout=28800)
+con =  pymysql.connect(host="localhost", user="root", password="", database="covid", port=3308, connect_timeout=28800)
 cur = con.cursor()
 # con.query('SET GLOBAL connect_timeout=28800')
 # con.query('SET GLOBAL interactive_timeout=28800')
@@ -73,14 +73,14 @@ def checkboxDraw(days):
     buttonSelectAll.configure(state=NORMAL)
     buttonDeselect.configure(state=NORMAL)
 
-#function getSize()
+#functions getSize()
 def getWidth(p):
     return widthOfScreen*(p/100)
 
 def getHeight(p):
     return heightOfScreen*(p/100)
 
-
+#select a json or xml file from device
 def browseFiles():
     filename = filedialog.askopenfilename(initialdir="/",
                                           title="Select a File",
@@ -156,7 +156,7 @@ def logExplore():
         try:
             global  con
             global  cur
-            con = pymysql.connect(host="localhost", user="root", password="", database="mysql")
+            con = pymysql.connect(host="localhost", user="root", password="", database="mysql", port=3308)
             cur = con.cursor()
             cur.execute("select user from user where user='"+user_id.get()+"' and authentication_string= CONCAT('*',UPPER(SHA1(UNHEX(SHA1('"+user_password.get()+"')))))")
             row = cur.fetchone()
@@ -217,7 +217,7 @@ def load():
         try:
             global  con
             global  cur
-            con = pymysql.connect(host="localhost", user="root", password="", database="mysql")
+            con = pymysql.connect(host="localhost", user="root", password="", database="mysql", port=3308)
             cur = con.cursor()
             cur.execute("select user from user where user='"+user_id.get()+"' and authentication_string= CONCAT('*',UPPER(SHA1(UNHEX(SHA1('"+user_password.get()+"')))))")
             row = cur.fetchone()
@@ -319,17 +319,6 @@ def sqlQuery(*args):
         # enable validate and cancel buttons
         # buttonValid.configure(state=tk.NORMAL)
         buttonCancel.configure(state=NORMAL)
-
-def getMysqlConn():
-    global curs
-    if  curs is None or curs.connection.close:
-        try:
-           curs = pymysql.connect(host="localhost", user=user_id.get(), password=user_password.get(), database="covid").cursor()
-           return curs
-        except Exception as e:
-            messagebox.showerror("Error", f"Erreur due a : {str(e)}", parent=home)
-    else:
-        return curs
 def insertData(sql1,sql2, cur):
 
     try:
@@ -366,7 +355,7 @@ def cancels():
                                   port=3308)
             cur = con.cursor()
             for date in dateCom:
-                sql = f"DELETE FROM communique, localite USING communique INNER JOIN localite WHERE date = '{date}' AND localite.id_localite = communique.id_localite"
+                sql = f"DELETE FROM communique, localites USING communique INNER JOIN localite WHERE date = '{date}' AND localite.id_localite = communique.id_localite"
                 print(sql)
                 cur.execute(sql)
                 con.commit()
@@ -455,7 +444,7 @@ buttonDeselect = Button(frameLoaderRight, text=" Deselect All  ", bg="#28527a", 
 
 buttonCancel.place(x=250, y= frameLoaderRight.winfo_height()-50)
 buttonImport.place(x=350, y= frameLoaderRight.winfo_height()-50)
-buttonValid.place(x=450, y= frameLoaderRight.winfo_height()-50)
+#buttonValid.place(x=450, y= frameLoaderRight.winfo_height()-50)
 buttonSelectAll.place(x=500, y=frameLoaderRight.winfo_height()/2-50)
 buttonDeselect.place(x=500, y=frameLoaderRight.winfo_height() / 2)
 
