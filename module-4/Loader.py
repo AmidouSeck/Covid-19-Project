@@ -53,6 +53,7 @@ class Loader:
         region = region.capitalize()
         regions = self.afficher(f"select g2.region from geo g,geo g2 where g.region = '{region}' and g.region != g2.region order by st_distance(g.coor,g2.coor)")
         result = []
+        #comm#
         for x in regions:
             result.append(str(x[0]))
         return result

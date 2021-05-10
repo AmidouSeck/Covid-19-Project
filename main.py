@@ -496,6 +496,7 @@ explorerLabel.place(x=getWidth(40) - 100, y=getHeight(1))
 # explorerLabel.grid(row=0, columnspan=2, pady=15, padx = 15)
 # buttonExecute.grid(row=1, column = 0)
 # frameExplorer.grid(row = 1, column = 0)
+home.iconbitmap('image\icon.ico')
 
 # Login form
 
