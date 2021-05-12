@@ -29,7 +29,7 @@ class Loader:
     def progressionParRegion(self,region,annee = "2020"):
         region = region.capitalize()
         mois = self.afficher("select distinct MONTH(date) from communique order by MONTH(date)")
-        donne = self.afficher(f"select sum(l.nbCas) {region} from localites l inner join ligne_com_local lcl using(id_localite) inner join communique c using (date) where YEAR(c.date) = '{annee}' and l.nom = '{region}' group by MONTH(c.date);")
+        donne = self.afficher(f"select sum(l.nbCas) from localites l inner join ligne_com_local lcl using (id_localite) inner join communique c using (date) where l.nom = '{region}' and YEAR(c.date) = '{annee}' group by MONTH(c.date);")
         output = []
         outputMois = []
         for x in mois:
@@ -53,16 +53,11 @@ class Loader:
         region = region.capitalize()
         regions = self.afficher(f"select g2.region from geo g,geo g2 where g.region = '{region}' and g.region != g2.region order by st_distance(g.coor,g2.coor)")
         result = []
-        #comm#
         for x in regions:
             result.append(str(x[0]))
         return result
     def showMap(self):
         return 0
-
-p = Loader()
-result = p.progressionParRegion("Touba")
-print(result)
 
 
 
