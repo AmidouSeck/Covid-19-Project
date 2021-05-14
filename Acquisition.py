@@ -3,7 +3,7 @@ from pandas.core.construction import is_empty_data
 import requests
 import json
 import os
-import PyPDF2
+#ßimport PyPDF2
 import pandas as pd
 from pathlib import Path
 from pdfminer.pdfparser import PDFParser
