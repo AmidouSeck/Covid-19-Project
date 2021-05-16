@@ -1,11 +1,9 @@
 from tkinter import *
-import tkinter as tk
-from tkinter import ttk, messagebox, filedialog, simpledialog
+from tkinter import ttk, messagebox, filedialog
 from PIL import ImageTk, Image
 import os
 import pymysql
 import json
-import glob
 
 home = Tk()
 # Configuration de la page d'acceuil
@@ -52,12 +50,25 @@ def helper():
 
 # About function
 def about():
-    messagebox.showinfo("About", "Texte Info", parent=home)
+    messagebox.showinfo("About", "L’année 2020 et 2021 sont marquées par la progression du COVID 19. Afin d’informer "
+                                 "la population sénégalaise, chaque jour un communiqué de presse est diffusé en ligne "
+                                 "par le Ministère de la Santé et de l’Action Sociale du Sénégal. Un groupe de "
+                                 "scientifique désireux de regrouper et analyser ces données pour la compréhension de "
+                                 "sa diffusion dans le territoire sénégalais engage un groupe de développeurs pour "
+                                 "concevoir et développer une solution permettant de modéliser son évolution spatiale "
+                                 "et temporelle."
+                                 "Ce logiciel est conçu pour analyser les données de progression du covid", parent=home)
 
 
 def disconnect():
     home.destroy()
     path_explore = os.path.join(os.getcwd(), "login.py")
+    os.system(f'python {path_explore}')
+
+
+# Acquisition function
+def acquire():
+    path_explore = os.path.join(os.getcwd(), "acquisition.py")
     os.system(f'python {path_explore}')
 
 
@@ -436,7 +447,7 @@ filemenu.add_command(label="Quitter", command=home.quit)
 menubar.add_cascade(label="Menu", menu=filemenu)
 helpmenu = Menu(menubar, tearoff=0)
 helpmenu.add_command(label="Help", command=helper)
-helpmenu.add_command(label="About")
+helpmenu.add_command(label="About", command=about)
 menubar.add_cascade(label="Help", menu=helpmenu)
 home.config(menu=menubar)
 
@@ -446,12 +457,15 @@ label_covid.place(x=getWidth(40), y=getHeight(1))
 
 # Tabs
 my_notebook = ttk.Notebook(home)
+frameAcquisition = Frame(my_notebook, width=getWidth(80), height=getHeight(80), bg="#28527a")
 frameLoader = Frame(my_notebook, width=getWidth(80), height=getHeight(80), bg="#28527a")
 frameExplorer = Frame(my_notebook, width=getWidth(80), height=getHeight(80), bg="gray")
 frameAnalyser = Frame(my_notebook, width=getWidth(80), height=getHeight(80), bg="gray")
+frameAcquisition.pack(fill="both", expand=1)
 frameLoader.pack(fill="both", expand=1)
 frameExplorer.pack(fill="both", expand=1)
 frameAnalyser.pack(fill="both", expand=1)
+my_notebook.add(frameAcquisition, text='DATA ACQUISITION')
 my_notebook.add(frameLoader, text='DATA LOADER')
 my_notebook.add(frameExplorer, text='DATA EXPLORER')
 my_notebook.add(frameAnalyser, text='DATA ANALYSER')
@@ -503,18 +517,26 @@ buttonSelectAll.place(x=500, y=frameLoaderRight.winfo_height() / 2 - 50)
 buttonDeselect.place(x=500, y=frameLoaderRight.winfo_height() / 2)
 
 # Frame explorer
-
 buttonExecute = Button(frameExplorer, text="Explore", command=DrawExploreAuthFrame)
+buttonExecute.update()
 frameExplorer.update()
 buttonExecute.place(x=widthOfWindow / 2 - 150, y=heightOfWindow / 2 - 110)
-explorerLabel = Label(frameExplorer, text='Click button to explore data in the map')
-explorerLabel.place(x=getWidth(40) - 100, y=getHeight(1))
+explorerLabel = Label(frameExplorer, text='Click button to explore data in the map', font=('Arial', 17))
+explorerLabel.place(x=getWidth(40) - 200, y=getHeight(3))
 # explorerLabel.grid(row=0, columnspan=2, pady=15, padx = 15)
 # buttonExecute.grid(row=1, column = 0)
 # frameExplorer.grid(row = 1, column = 0)
 home.iconbitmap('image\icon.ico')
 
-# Login form
-
+# Frame Acquisition
+buttonAcquire = Button(frameAcquisition, text="Acquire Data", command=acquire, fg='black', bg='aqua')
+buttonAcquire.update()
+frameAcquisition.update()
+buttonAcquire.place(x=widthOfWindow / 2 - 150, y=heightOfWindow / 2 - 110)
+acquireLabel = Label(frameAcquisition, text='WELCOME TO THE COVID 19 MODELER APP', font=('Arial', 22))
+acquireLabel2 = Label(frameAcquisition, text='To start any analyse, you need to acquire data. Click on the button '
+                                             'below to get all data for analysis', font=('Arial', 17))
+acquireLabel.place(x=getWidth(40) - 350, y=getHeight(2))
+acquireLabel2.place(x=getWidth(40) - 500, y=getHeight(11))
 
 home.mainloop()
