@@ -3,6 +3,7 @@ from pandas.core.construction import is_empty_data
 import requests
 import json
 import os
+import PyPDF2
 import pandas as pd
 from pathlib import Path
 from pdfminer.pdfparser import PDFParser
@@ -17,7 +18,6 @@ from datetime import datetime
 from dateparser.search import search_dates
 from itertools import groupby
 import numpy as np
-import sys
 
 url = ['http://www.sante.gouv.sn/sites/default/files/COMMUNIQUE%2022%20du%2023%20mars%202020.pdf',
         'http://www.sante.gouv.sn/sites/default/files/COMMUNIQUE%2023%20du%2024%20mars%202020.pdf',
@@ -198,6 +198,7 @@ for i in url:
       r.raise_for_status()
     except Exception as e:
       print(e)
+      print(e)
 
 # MOVE ALL DOWNLOADED PDF FILES TO PDF FOLDER
 for f in glob.glob('*.pdf'):
@@ -236,7 +237,24 @@ for pdf_path in entries:
         text2 = ''
   # ocr_dict now holds all the OCR info including text and location on the image
     text = text1 + text2
-    #print(text)
+  
+
+    regions=['Dakar','Thiés','Diourbel','Fatick','Kaolack','Kaffrine','Touba','Kolda','Tamba','Ziguinchor','Saint-Louis','Matam','Sédhiou']
+    regions_dict = {}
+    for region in regions:
+        result = re.search(f"(.?({region}).?,|.?({region}).?;|\d+.a.*?({region}))",text,re.IGNORECASE)
+        #result = re.search(f".*?({region}).*?,|.*?({region}).*?;",text,re.IGNORECASE)
+        chiffre = 0
+        if result is None:
+            chiffre = 0
+        else:
+            result_chiffre = re.search("((\d+))",result.group(0))
+            if result_chiffre is not None:
+                chiffre = int(result_chiffre.group(0))
+                regions_dict[region] = chiffre
+    print('AAAAAAAAAAAAA',regions_dict)
+
+
 
     day = re.search("(lundi|mardi|Mercredi|mércredi|jeudi|vendredi|samedi|dimanche)",text,re.IGNORECASE)
     
@@ -371,118 +389,168 @@ for pdf_path in entries:
   else: cas_deces_nums = [0]
 
   # SEARCHING FOR DIFFERENT LOCAL IN SENEGAL
-  expression = r"(?i)(?:\bDakar\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Dakar)"
-  expression1 = r"(?i)(?:\bThiès\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Thiès)"
-  expression2 = r"(?i)(?:\bTouba\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Touba)"
-  expression3 = r"(?i)(?:\bDiourbel\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Diourbel)"
-  expression4 = r"(?i)(?:\bFatick\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Fatick)"
-  expression5 = r"(?i)(?:\bKaolack\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Kaolack)"
-  expression6 = r"(?i)(?:\bKaffrine\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Kaffrine)"
-  expression7 = r"(?i)(?:\bKolda\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Kolda)"
-  expression8 = r"(?i)(?:\bTamba\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Tamba)"
-  expression9 = r"(?i)(?:\bZiguinchor\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Ziguinchor)"
-  expression10 = r"(?i)(?:\bSaint-Louis\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Saint-Louis)"
-  expression11 = r"(?i)(?:\bMatam\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Matam)"
-  expression12 = r"(?i)(?:\bSédhiou\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Sédhiou)"
-  expression13 = r"(?i)(?:\bKédougou\D{0,20})([0-9][0-9,]*)[^.,]|([0-9][0-9,]*)[^.,](?:\D{0,20}Kédougou)"
+  cas_dakar = re.search(r'(\w+\s+){0,30}Dakar(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_dakar:
+    #print(cas_dakar.group(0))
+    dakar_num = str(cas_dakar.group(0))
+    cas_dakar_nums = [int(s) for s in dakar_num.split() if s.isdigit()]
+    if cas_dakar_nums == []:
+      cas_dakar_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_dakar_nums)
+  else: cas_dakar_nums = [0]
 
-  nbCasDkr = re.findall(expression, text)
-  if nbCasDkr == []:
-    nb_cas_dakar = [0]
-  else:
-    dkr_str = str(nbCasDkr)
-    nb_cas_dakar = re.findall(r'\d+',dkr_str)
+  cas_thies = re.search(r'(\w+\s+){0,30}Thiès(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_thies:
+    print(cas_thies.group(0))
+    thies_num = str(cas_thies.group(0))
+    cas_thies_nums = [int(s) for s in thies_num.split() if s.isdigit()]
+    if cas_thies_nums == []:
+      cas_thies_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_thies_nums)
+  else: cas_thies_nums = [0]
 
-  nbCasTh = re.findall(expression1, text)
-  if nbCasTh == []:
-    nb_cas_thies = [0]
-  else:
-    th_str = str(nbCasTh)
-    nb_cas_thies == re.findall(r'\d+',th_str)
+  cas_kolda = re.search(r'(\w+\s+){0,30}Kolda(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_kolda:
+    #print(cas_kolda.group(0))
+    kolda_num = str(cas_kolda.group(0))
+    cas_kolda_nums = [int(s) for s in kolda_num.split() if s.isdigit()]
+    if cas_kolda_nums == []:
+      cas_kolda_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_kolda_nums)
+  else: cas_kolda_nums = [0]
 
-  nbCasTb = re.findall(expression2, text)
-  if nbCasTb == []:
-    nb_cas_touba = [0]
-  else:
-    tb_str = str(nbCasTb)
-    nb_cas_touba = re.findall(r'\d+',tb_str)
-  
-  nbCasDbl = re.findall(expression3, text)
-  if nbCasDbl == []:
-    nb_cas_diourbel = [0]
-  else:
-    dbl_str = str(nbCasDbl)
-    nb_cas_diourbel = re.findall(r'\d+',dbl_str)
+  cas_louga = re.search(r'(\w+\s+){0,30}Louga(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_louga:
+    #print(cas_louga.group(0))
+    louga_num = str(cas_louga.group(0))
+    cas_louga_nums = [int(s) for s in louga_num.split() if s.isdigit()]
+    if cas_louga_nums == []:
+      cas_louga_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_louga_nums)
+  else: cas_louga_nums = [0]
 
-  nbCasFtk = re.findall(expression4, text)
-  if nbCasFtk == []:
-    nb_cas_fatick = [0]
-  else:
-    ftk_str = str(nbCasFtk)
-    nb_cas_fatick = re.findall(r'\d+',ftk_str)
+  cas_touba = re.search(r'(\w+\s+){0,30}Touba(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_touba:
+    #print(cas_touba.group(0))
+    touba_num = str(cas_touba.group(0))
+    cas_touba_nums = [int(s) for s in touba_num.split() if s.isdigit()]
+    if cas_touba_nums == []:
+      cas_touba_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_touba_nums)
+  else: cas_touba_nums = [0]
 
-  nbCasKlk = re.findall(expression5, text)
-  if nbCasKlk == []:
-    nb_cas_kaolack = [0]
-  else:
-    klk_str = str(nbCasKlk)
-    nb_cas_kaolack = re.findall(r'\d+',klk_str)
+  cas_diourbel = re.search(r'(\w+\s+){0,30}Diourbel(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_diourbel:
+    #print(cas_diourbel.group(0))
+    diourbel_num = str(cas_diourbel.group(0))
+    if cas_diourbel.group(0) is not None:
+      cas_diourbel_nums = [int(s) for s in diourbel_num.split() if s.isdigit()]
+      if cas_diourbel_nums == []:
+            cas_diourbel_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_diourbel_nums)
+  else: cas_diourbel_nums = [0]
 
-  nbCasKfr = re.findall(expression6, text)
-  if nbCasKfr == []:
-    nb_cas_kaffrine = [0]
-  else:
-    kfr_str = str(nbCasKfr)
-    nb_cas_kaffrine = re.findall(r'\d+',kfr_str)
+  cas_fatick = re.search(r'(\w+\s+){0,30}Fatick(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_fatick:
+    #print(cas_fatick.group(0))
+    fatick_num = str(cas_fatick.group(0))
+    if cas_fatick.group(0) is not None:
+      cas_fatick_nums = [int(s) for s in fatick_num.split() if s.isdigit()]
+      if cas_fatick_nums == []:
+            cas_fatick_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_fatick_nums)
+  else: cas_fatick_nums = [0]
 
-  nbCasKld = re.findall(expression7, text)
-  if nbCasKld == []:
-    nb_cas_kolda = [0]
-  else:
-    kld_str = str(nbCasKld)
-    nb_cas_kolda = re.findall(r'\d+',kld_str)
+  cas_matam = re.search(r'(\w+\s+){0,30}Matam(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_matam:
+    #print(cas_matam.group(0))
+    matam_num = str(cas_matam.group(0))
+    if cas_matam.group(0) is not None:
+      cas_matam_nums = [int(s) for s in matam_num.split() if s.isdigit()]
+      if cas_matam_nums == []:
+            cas_matam_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_matam_nums)
+  else: cas_matam_nums = [0]
 
-  nbCasTmb = re.findall(expression8, text)
-  if nbCasTmb == []:
-    nb_cas_tamba = [0]
-  else:
-    tmb_str = str(nbCasTmb)
-    nb_cas_tamba = re.findall(r'\d+',tmb_str)
+  cas_kaolack = re.search(r'(\w+\s+){0,30}Kaolack(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_kaolack:
+    #print(cas_kaolack.group(0))
+    kaolack_num = str(cas_kaolack.group(0))
+    if cas_kaolack.group(0) is not None:
+      cas_kaolack_nums = [int(s) for s in kaolack_num.split() if s.isdigit()]
+      if cas_kaolack_nums == []:
+            cas_kaolack_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_kaolack_nums)
+  else: cas_kaolack_nums = [0]
 
-  nbCasZig = re.findall(expression9, text)
-  if nbCasZig == []:
-    nb_cas_ziguinchor = [0]
-  else:
-    zig_str = str(nbCasZig)
-    nb_cas_ziguinchor = re.findall(r'\d+',zig_str)
+  cas_kaffrine = re.search(r'(\w+\s+){0,30}Kaffrine(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_kaffrine:
+    #print(cas_kaffrine.group(0))
+    kaffrine_num = str(cas_kaffrine.group(0))
+    if cas_kaffrine.group(0) is not None:
+      cas_kaffrine_nums = [int(s) for s in kaffrine_num.split() if s.isdigit()]
+      if cas_kaffrine_nums == []:
+            cas_kaffrine_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_kaffrine_nums)
+  else: cas_kaffrine_nums = [0]
 
-  nbCasSl = re.findall(expression10, text)
-  if nbCasSl == []:
-    nb_cas_saintl = [0]
-  else:
-    sl_str = str(nbCasSl)
-    nb_cas_saintl = re.findall(r'\d+',sl_str)
+  cas_tamba = re.search(r'(\w+\s+){0,30}Tamba(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_tamba:
+    #print(cas_tamba.group(0))
+    tamba_num = str(cas_tamba.group(0))
+    if cas_tamba.group(0) is not None:
+      cas_tamba_nums = [int(s) for s in tamba_num.split() if s.isdigit()]
+      if cas_tamba_nums == []:
+            cas_tamba_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_tamba_nums)
+  else: cas_tamba_nums = [0]
 
-  nbCasMtm = re.findall(expression11, text)
-  if nbCasMtm == []:
-    nb_cas_matam = [0]
-  else:
-    mtm_str = str(nbCasMtm)
-    nb_cas_matam = re.findall(r'\d+',mtm_str)
+  cas_ziguinchor = re.search(r'(\w+\s+){0,30}Ziguinchor(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_ziguinchor:
+    #print(cas_ziguinchor.group(0))
+    ziguinchor_num = str(cas_ziguinchor.group(0))
+    if cas_ziguinchor.group(0) is not None:
+      cas_ziguinchor_nums = [int(s) for s in ziguinchor_num.split() if s.isdigit()]
+      if cas_ziguinchor_nums == []:
+            cas_ziguinchor_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_ziguinchor_nums)
+  else: cas_ziguinchor_nums = [0]
 
-  nbCasSdh = re.findall(expression12, text)
-  if nbCasSdh == []:
-    nb_cas_sedhiou = [0]
-  else:
-    sdh_str = str(nbCasSdh)
-    nb_cas_sedhiou = re.findall(r'\d+',sdh_str)
+  cas_saintlouis = re.search(r'(\w+\s+){0,30}Saint-Louis(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_saintlouis:
+    #print(cas_saintlouis.group(0))
+    saintlouis_num = str(cas_saintlouis.group(0))
+    if cas_saintlouis.group(0) is not None:
+      cas_saintlouis_nums = [int(s) for s in saintlouis_num.split() if s.isdigit()]
+      if cas_saintlouis_nums == []:
+            cas_saintlouis_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_saintlouis_nums)
+  else: cas_saintlouis_nums = [0]
 
-  nbCasKdg = re.findall(expression13, text)
-  if nbCasKdg == []:
-    nb_cas_kedougou = [0]
-  else:
-    kdg_str = str(nbCasKdg)
-    nb_cas_kedougou = re.findall(r'\d+',kdg_str)
+  cas_sedhiou = re.search(r'(\w+\s+){0,30}Sédhiou(\w+\s+){0,30}', text, re.IGNORECASE)
+  if cas_sedhiou:
+    #print(cas_sedhiou.group(0))
+    sedhiou_num = str(cas_sedhiou.group(0))
+    if cas_sedhiou.group(0) is not None:
+      cas_sedhiou_nums = [int(s) for s in sedhiou_num.split() if s.isdigit()]
+      if cas_sedhiou_nums == []:
+            cas_sedhiou_nums = [0]
+    #else: cas_deces_nums = [0]
+    #print(cas_sedhiou_nums)
+  else: cas_sedhiou_nums = [0]
   
   # PUTTING DATA IN JSON OBJECT
   json_data = {}
@@ -498,25 +566,23 @@ for pdf_path in entries:
     'casGueris': cas_gueris_nums[0],
     'deces' : cas_deces_nums[0],
     'localites': [{
-      'Dakar' : int(nb_cas_dakar[0]),
-      'Thies' : int(nb_cas_thies[0]),
-      'Diourbel' : int(nb_cas_diourbel[0]),
-      'Fatick' : int(nb_cas_fatick[0]),
-      'Kaolack' : int(nb_cas_kaolack[0]),
-      'Kaffrine' : int(nb_cas_kaffrine[0]),
-      'Touba' : int(nb_cas_touba[0]),
-      'Kolda' : int(nb_cas_kolda[0]),
-      'Tamba': int(nb_cas_tamba[0]),
-      'Ziguinchor': int(nb_cas_ziguinchor[0]),
-      'Saint-Louis': int(nb_cas_saintl[0]),
-      'Matam': int(nb_cas_matam[0]),
-      'Sedhiou': int(nb_cas_sedhiou[0]),
-      'Kedougou': int(nb_cas_kedougou[0])
+      'Dakar' : cas_dakar_nums[0],
+      'Thies' : cas_thies_nums[0],
+      'Diourbel' : cas_diourbel_nums[0],
+      'Fatick' : cas_fatick_nums[0],
+      'Kaolack' : cas_kaolack_nums[0],
+      'Kaffrine' : cas_kaffrine_nums[0],
+      'Touba' : cas_touba_nums[0],
+      'Kolda' : cas_kolda_nums[0],
+      'Tamba': cas_tamba_nums[0],
+      'Ziguinchor': cas_ziguinchor_nums[0],
+      'Saint-Louis': cas_saintlouis_nums[0],
+      'Matam': cas_matam_nums[0],
+      'Sedhiou': cas_sedhiou_nums[0]
     }]
   }
   tabJson.append(json_data[pdf_path])
-print('FILES CREATED', tabJson)
-  
+  print('FILES CREATED', tabJson)
   
 #res  = set(tabJson)
 # GROUP ALL OBJECTS HAVING SAME MONTH
@@ -542,4 +608,3 @@ for f in glob.glob('*.json'):
     shutil.move(f, 'JSON')
 #IL NE RESTE QU'A TRADUIRE LES TEXTES PRINT DANS LA CONSOLE EN JSON AVEC LES CHAMPS ENUMERES DANS LE DOCUMENT DU PROF
 print('-----------ACQUISITION ENDED SUCCESSFULLY-----------')
-       
