@@ -5,7 +5,6 @@ import os
 import pymysql
 import json
 
-
 home = Tk()
 # Configuration de la page dacceuil
 # hom
@@ -116,7 +115,7 @@ def getHeight(p):
 
 # select a json or xml file from device
 def browseFiles():
-    filename = filedialog.askopenfilename(initialdir= os.path.join(os.getcwd(), "/JSON"),
+    filename = filedialog.askopenfilename(initialdir=os.path.join(os.getcwd(), "/JSON"),
                                           title="Select a File",
                                           filetypes=(("JSON files",
                                                       "*.json"),
@@ -181,8 +180,17 @@ def DrawExploreAuthFrame():
 
 # explore function
 def explore():
+
     exploreFrame.destroy()
     path_explore = os.path.join("module-3", "explore.py")
+    os.system(f'python {path_explore}')
+
+
+# analyse function
+
+def analyse():
+    buttonAnalyse.update()
+    path_explore = os.path.join("module-4", "Loader.py")
     os.system(f'python {path_explore}')
 
 
@@ -198,7 +206,10 @@ def logExplore():
             con = pymysql.connect(host="localhost", user="root", password="", database="mysql")
             cur = con.cursor()
             cur.execute(
-                "select user from user where user='" + user_id.get() + "' and authentication_string= CONCAT('*',UPPER(SHA1(UNHEX(SHA1('" + user_password.get() + "')))))")
+                "select user from user where user='" + user_id.get() + "' and authentication_string= CONCAT('*',"
+                                                                       "UPPER(SHA1(UNHEX(SHA1('" + user_password.get(
+
+                ) + "')))))")
             row = cur.fetchone()
             if row == None:
                 messagebox.showerror("Erreur", "Identifiant ou mot de passe invalide", parent=home)
@@ -206,20 +217,12 @@ def logExplore():
             else:
                 messagebox.showinfo("Réussi", "Vous pouvez explorer les données", parent=home)
                 exploreFrame.destroy()
-            waithere()
-
             # loader()
+            exploreFrame.destroy()
             con.close()
             explore()
         except Exception as es:
             messagebox.showerror("Erreur", f"Erreur due a : {str(es)}", parent=home)
-
-
-def waithere():
-    var = IntVar()
-    home.after(3000, var.set, 1)
-    print("waiting...")
-    home.wait_variable(var)
 
 
 def DrawImportAuthFrame():
@@ -265,7 +268,10 @@ def load():
             con = pymysql.connect(host="localhost", user="root", password="", database="mysql")
             cur = con.cursor()
             cur.execute(
-                "select user from user where user='" + user_id.get() + "' and authentication_string= CONCAT('*',UPPER(SHA1(UNHEX(SHA1('" + user_password.get() + "')))))")
+                "select user from user where user='" + user_id.get() + "' and authentication_string= CONCAT('*',"
+                                                                       "UPPER(SHA1(UNHEX(SHA1('" + user_password.get(
+
+                ) + "')))))")
             row = cur.fetchone()
             if row == None:
                 messagebox.showerror("Erreur", "Identifiant ou mot de passe invalide", parent=home)
@@ -480,9 +486,11 @@ my_notebook.place(x=widthOfWindow / 2 - getWidth(80) / 2,
 buttonAcquire = Button(frameAcquisition, text="Acquire Data", command=acquire, fg='white', bg='#00a1ff')
 buttonAcquire.update()
 buttonAcquire.place(x=widthOfWindow / 2 - 150, y=heightOfWindow / 2 - 110)
-acquireLabel = Label(frameAcquisition, text='WELCOME TO THE COVID 19 MODELER APP', font=('Arial', 22), bg='#28527a', fg='white')
+acquireLabel = Label(frameAcquisition, text='WELCOME TO THE COVID 19 MODELER APP', font=('Arial', 22), bg='#28527a',
+                     fg='white')
 acquireLabel2 = Label(frameAcquisition, text='To start any analyse, you need to acquire data. Click on the button '
-                                             'below to get all data for analysis', font=('Arial', 17), bg='#28527a', fg='white')
+                                             'below to get all data for analysis', font=('Arial', 17), bg='#28527a',
+                      fg='white')
 acquireLabel.place(x=getWidth(40) - 350, y=getHeight(2))
 acquireLabel2.place(x=getWidth(40) - 500, y=getHeight(11))
 #######################frameLoader design####################
@@ -493,12 +501,13 @@ frameLoader.update()
 #       FrameLoaderLeft
 frameLoaderLeft = Frame(frameLoader, width=frameLoader.winfo_width() / 2 - 80, height=frameLoader.winfo_height() * 0.9,
                         bg="#28527a")
-frameLoaderRight = Frame(frameLoader, width=frameLoader.winfo_width() / 2 + 100, height=frameLoader.winfo_height() * 0.90,
+frameLoaderRight = Frame(frameLoader, width=frameLoader.winfo_width() / 2 + 100,
+                         height=frameLoader.winfo_height() * 0.90,
                          bg="#28527a")
 frameLoaderLeft.grid(row=1, column=0)
 frameLoaderRight.grid(row=1, column=1)
 frameLoaderLeft.grid_propagate(0)
-labFileSelect = Label(frameLoaderLeft, text="Select a Json file",  bg="#28527a", fg="white", font=('Arial', 12))
+labFileSelect = Label(frameLoaderLeft, text="Select a Json file", bg="#28527a", fg="white", font=('Arial', 12))
 buttonFileSelect = Button(frameLoaderLeft, text="  Select  ", bg="#00a1ff", fg="white", command=browseFiles)
 labfilename = Label(frameLoaderLeft, text="", bg="#28527a", fg="white")
 frameLoaderLeft.update()
@@ -533,13 +542,29 @@ buttonDeselect.place(x=500, y=frameLoaderRight.winfo_height() / 2)
 buttonExecute = Button(frameExplorer, text="Explore", command=DrawExploreAuthFrame, bg='#00a1ff', fg='white')
 frameExplorer.update()
 buttonExecute.place(x=widthOfWindow / 2 - 150, y=heightOfWindow / 2 - 110)
-explorerLabel = Label(frameExplorer, text='Click button to explore data in the map', font=('Arial', 14), bg='#28527a', fg='white')
-explorerLabel2 = Label(frameExplorer, text='Data imported can now be explored in the map', font=('Arial', 12), bg='#28527a', fg='white')
+explorerLabel = Label(frameExplorer, text='Click button to explore data in the map', font=('Arial', 14), bg='#28527a',
+                      fg='white')
+explorerLabel2 = Label(frameExplorer, text='Data imported can now be explored in the map', font=('Arial', 12),
+                       bg='#28527a', fg='white')
 explorerLabel2.place(x=getWidth(40) - 200, y=getHeight(3))
 explorerLabel.place(x=getWidth(40) - 200, y=getHeight(8))
 # explorerLabel.grid(row=0, columnspan=2, pady=15, padx = 15)
 # buttonExecute.grid(row=1, column = 0)
 # frameExplorer.grid(row = 1, column = 0)
+
+# Frame analyser
+
+# Frame explorer
+
+buttonAnalyse = Button(frameAnalyser, text="Analyse", command=analyse, bg='#00a1ff', fg='white')
+frameExplorer.update()
+buttonAnalyse.place(x=widthOfWindow / 2 - 150, y=heightOfWindow / 2 - 110)
+analyserLabel = Label(frameAnalyser, text='Click button to analyse data in the map', font=('Arial', 14), bg='#28527a',
+                      fg='white')
+analyserLabel2 = Label(frameAnalyser, text='Data imported can now be explored in the map', font=('Arial', 12),
+                       bg='#28527a', fg='white')
+analyserLabel2.place(x=getWidth(40) - 200, y=getHeight(3))
+analyserLabel.place(x=getWidth(40) - 200, y=getHeight(8))
 
 my_notebook.select(frameAcquisition)
 
