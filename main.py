@@ -8,7 +8,7 @@ import json
 import glob
 
 home = Tk()
-# Configuration de la page d'acceuil
+# Configuration de la page dacceuil
 # hom
 # Constants
 home.update()
@@ -47,7 +47,7 @@ cur = con.cursor()
 # help function
 
 def helper():
-    messagebox.showinfo("Aide", "Texte aide", parent=home)
+    messagebox.showinfo("Aide", "Veillez vous referer a la documentation accompagnée au logiciel", parent=home)
 
 
 # About function
