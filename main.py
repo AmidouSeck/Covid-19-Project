@@ -1,11 +1,9 @@
 from tkinter import *
-import tkinter as tk
-from tkinter import ttk, messagebox, filedialog, simpledialog
+from tkinter import ttk, messagebox, filedialog
 from PIL import ImageTk, Image
 import os
 import pymysql
 import json
-import glob
 
 home = Tk()
 # Configuration de la page dacceuil
@@ -34,7 +32,7 @@ chbudraw = False
 savePoint = "P1"
 user_id = StringVar()
 user_password = StringVar()
-con = pymysql.connect(host="localhost", user="root", password="", database="covid", port=3308, connect_timeout=28800)
+con = pymysql.connect(host="localhost", user="root", password="", database="covid", connect_timeout=28800)
 cur = con.cursor()
 
 
@@ -117,7 +115,7 @@ def getHeight(p):
 
 # select a json or xml file from device
 def browseFiles():
-    filename = filedialog.askopenfilename(initialdir="/",
+    filename = filedialog.askopenfilename(initialdir=os.path.join(os.getcwd(), "/JSON"),
                                           title="Select a File",
                                           filetypes=(("JSON files",
                                                       "*.json"),
@@ -182,8 +180,17 @@ def DrawExploreAuthFrame():
 
 # explore function
 def explore():
+
     exploreFrame.destroy()
     path_explore = os.path.join("module-3", "explore.py")
+    os.system(f'python {path_explore}')
+
+
+# analyse function
+
+def analyse():
+    buttonAnalyse.update()
+    path_explore = os.path.join("module-4", "Loader.py")
     os.system(f'python {path_explore}')
 
 
@@ -196,10 +203,13 @@ def logExplore():
         try:
             global con
             global cur
-            con = pymysql.connect(host="localhost", user="root", password="", database="mysql", port=3308)
+            con = pymysql.connect(host="localhost", user="root", password="", database="mysql")
             cur = con.cursor()
             cur.execute(
-                "select user from user where user='" + user_id.get() + "' and authentication_string= CONCAT('*',UPPER(SHA1(UNHEX(SHA1('" + user_password.get() + "')))))")
+                "select user from user where user='" + user_id.get() + "' and authentication_string= CONCAT('*',"
+                                                                       "UPPER(SHA1(UNHEX(SHA1('" + user_password.get(
+
+                ) + "')))))")
             row = cur.fetchone()
             if row == None:
                 messagebox.showerror("Erreur", "Identifiant ou mot de passe invalide", parent=home)
@@ -207,20 +217,12 @@ def logExplore():
             else:
                 messagebox.showinfo("Réussi", "Vous pouvez explorer les données", parent=home)
                 exploreFrame.destroy()
-            waithere()
-
             # loader()
+            exploreFrame.destroy()
             con.close()
             explore()
         except Exception as es:
             messagebox.showerror("Erreur", f"Erreur due a : {str(es)}", parent=home)
-
-
-def waithere():
-    var = IntVar()
-    home.after(3000, var.set, 1)
-    print("waiting...")
-    home.wait_variable(var)
 
 
 def DrawImportAuthFrame():
@@ -263,17 +265,20 @@ def load():
         try:
             global con
             global cur
-            con = pymysql.connect(host="localhost", user="root", password="", database="mysql", port=3308)
+            con = pymysql.connect(host="localhost", user="root", password="", database="mysql")
             cur = con.cursor()
             cur.execute(
-                "select user from user where user='" + user_id.get() + "' and authentication_string= CONCAT('*',UPPER(SHA1(UNHEX(SHA1('" + user_password.get() + "')))))")
+                "select user from user where user='" + user_id.get() + "' and authentication_string= CONCAT('*',"
+                                                                       "UPPER(SHA1(UNHEX(SHA1('" + user_password.get(
+
+                ) + "')))))")
             row = cur.fetchone()
             if row == None:
                 messagebox.showerror("Erreur", "Identifiant ou mot de passe invalide", parent=home)
 
             else:
                 messagebox.showinfo("Success", "Vous etes connecté", parent=home)
-                con = pymysql.connect(host="localhost", user="root", password="", database="covid", port=3308,
+                con = pymysql.connect(host="localhost", user="root", password="", database="covid",
                                       connect_timeout=28800)
                 cur = con.cursor()
                 importFrame.destroy()
@@ -404,8 +409,8 @@ def cancels():
     result = messagebox.askquestion("Annuler", "Etes vous sure d'annuler toutes vos importations?", icon='warning')
     if result == 'yes':
         try:
-            con = pymysql.connect(host="localhost", user=user_id.get(), password=user_password.get(), database="covid",
-                                  port=3308)
+            con = pymysql.connect(host="localhost", user=user_id.get(), password=user_password.get(), database="covid"
+                                  )
             cur = con.cursor()
             # delete previous imported data
             for date in dateCom:
@@ -470,35 +475,52 @@ style.configure("TNotebook.Tab", background="white", foreground="black")
 my_notebook = ttk.Notebook(home)
 frameAcquisition = Frame(my_notebook, width=getWidth(80), height=getHeight(80), bg="#28527a")
 frameLoader = Frame(my_notebook, width=getWidth(80), height=getHeight(80), bg="#28527a")
-frameExplorer = Frame(my_notebook, width=getWidth(80), height=getHeight(80), bg="gray")
-frameAnalyser = Frame(my_notebook, width=getWidth(80), height=getHeight(80), bg="gray")
+frameExplorer = Frame(my_notebook, width=getWidth(80), height=getHeight(80), bg="#28527a")
+frameAnalyser = Frame(my_notebook, width=getWidth(80), height=getHeight(80), bg="#28527a")
 frameAcquisition.pack(fill="both", expand=1)
 frameLoader.pack(fill="both", expand=1)
 frameExplorer.pack(fill="both", expand=1)
 frameAnalyser.pack(fill="both", expand=1)
-my_notebook.add(frameAcquisition, text='DATA ACQUISITION')
+
 my_notebook.add(frameLoader, text='DATA LOADER')
 my_notebook.add(frameExplorer, text='DATA EXPLORER')
 my_notebook.add(frameAnalyser, text='DATA ANALYSER')
+my_notebook.add(frameAcquisition, text='DATA ACQUISITION')
+
 label_covid.update()
 my_notebook.place(x=widthOfWindow / 2 - getWidth(80) / 2,
                   y=heightOfWindow / 2 - getHeight(80) / 2 - label_covid.winfo_height())
 # m y_notebook.pack(fill=BOTH, expand=True)
+
+
+#
+# Frame Acquisition
+buttonAcquire = Button(frameAcquisition, text="Acquire Data", command=acquire, fg='white', bg='#00a1ff')
+buttonAcquire.update()
+buttonAcquire.place(x=widthOfWindow / 2 - 150, y=heightOfWindow / 2 - 110)
+acquireLabel = Label(frameAcquisition, text='WELCOME TO THE COVID 19 MODELER APP', font=('Arial', 22), bg='#28527a',
+                     fg='white')
+acquireLabel2 = Label(frameAcquisition, text='To start any analyse, you need to acquire data. Click on the button '
+                                             'below to get all data for analysis', font=('Arial', 17), bg='#28527a',
+                      fg='white')
+acquireLabel.place(x=getWidth(40) - 350, y=getHeight(2))
+acquireLabel2.place(x=getWidth(40) - 500, y=getHeight(11))
 #######################frameLoader design####################
-labImport = Label(frameLoader, text="Import Data to Database", bg="#28527a", fg="white")
+labImport = Label(frameLoader, text="Import Data into Database", bg="#28527a", fg="white", font=('Arial', 17))
 labImport.grid(row=0, columnspan=2, pady=15)
 # update frame size
 frameLoader.update()
 #       FrameLoaderLeft
-frameLoaderLeft = Frame(frameLoader, width=frameLoader.winfo_width() / 2, height=frameLoader.winfo_height() * 0.9,
+frameLoaderLeft = Frame(frameLoader, width=frameLoader.winfo_width() / 2 - 80, height=frameLoader.winfo_height() * 0.9,
                         bg="#28527a")
-frameLoaderRight = Frame(frameLoader, width=frameLoader.winfo_width() / 2, height=frameLoader.winfo_height() * 0.90,
+frameLoaderRight = Frame(frameLoader, width=frameLoader.winfo_width() / 2 + 100,
+                         height=frameLoader.winfo_height() * 0.90,
                          bg="#28527a")
 frameLoaderLeft.grid(row=1, column=0)
 frameLoaderRight.grid(row=1, column=1)
 frameLoaderLeft.grid_propagate(0)
-labFileSelect = Label(frameLoaderLeft, text="Select a Json file", bg="#28527a", fg="white")
-buttonFileSelect = Button(frameLoaderLeft, text="  Select  ", bg="#28527a", fg="white", command=browseFiles)
+labFileSelect = Label(frameLoaderLeft, text="Select a Json file", bg="#28527a", fg="white", font=('Arial', 12))
+buttonFileSelect = Button(frameLoaderLeft, text="  Select  ", bg="#00a1ff", fg="white", command=browseFiles)
 labfilename = Label(frameLoaderLeft, text="", bg="#28527a", fg="white")
 frameLoaderLeft.update()
 labFileSelect.place(x=frameLoaderLeft.winfo_width() / 2, y=frameLoaderLeft.winfo_height() / 2)
@@ -510,15 +532,15 @@ labfilename.place(x=frameLoaderLeft.winfo_width() / 2, y=frameLoaderLeft.winfo_h
 #       FrameLoaderRight
 frameLoaderRight.pack_propagate(0)
 frameLoaderRight.update()
-labImpDays = Label(frameLoaderRight, text="Select day(s) to import", bg="#28527a", fg="white")
+labImpDays = Label(frameLoaderRight, text="Select day(s) to import", bg="#28527a", fg="white", font=('Arial', 12))
 labImpDays.place(x=frameLoaderRight.winfo_width() / 2, y=20)
-buttonImport = Button(frameLoaderRight, text="  Import  ", command=DrawImportAuthFrame, bg="#28527a", fg="white",
+buttonImport = Button(frameLoaderRight, text="  Import  ", command=DrawImportAuthFrame, bg="#00a1ff", fg="white",
                       state=DISABLED)
-buttonValid = Button(frameLoaderRight, text="  Validate  ", command=sqlQuery, bg="#28527a", fg="white", state=DISABLED)
-buttonCancel = Button(frameLoaderRight, text="  Cancel  ", bg="#28527a", fg="white", command=cancels, state=DISABLED)
-buttonSelectAll = Button(frameLoaderRight, text="    Select All    ", bg="#28527a", fg="white", command=selectAll,
+buttonValid = Button(frameLoaderRight, text="  Validate  ", command=sqlQuery, bg="#00a1ff", fg="white", state=DISABLED)
+buttonCancel = Button(frameLoaderRight, text="  Cancel  ", bg="#00a1ff", fg="white", command=cancels, state=DISABLED)
+buttonSelectAll = Button(frameLoaderRight, text="    Select All    ", bg="#00a1ff", fg="white", command=selectAll,
                          state=DISABLED)
-buttonDeselect = Button(frameLoaderRight, text=" Deselect All  ", bg="#28527a", fg="white", command=deselectAll,
+buttonDeselect = Button(frameLoaderRight, text=" Deselect All  ", bg="#00a1ff", fg="white", command=deselectAll,
                         state=DISABLED)
 
 buttonCancel.place(x=250, y=frameLoaderRight.winfo_height() - 50)
@@ -529,25 +551,34 @@ buttonDeselect.place(x=500, y=frameLoaderRight.winfo_height() / 2)
 
 # Frame explorer
 
-buttonExecute = Button(frameExplorer, text="Explore", command=DrawExploreAuthFrame)
+buttonExecute = Button(frameExplorer, text="Explore", command=DrawExploreAuthFrame, bg='#00a1ff', fg='white')
 frameExplorer.update()
 buttonExecute.place(x=widthOfWindow / 2 - 150, y=heightOfWindow / 2 - 110)
-explorerLabel = Label(frameExplorer, text='Click button to explore data in the map', font=('Arial', 17))
-explorerLabel.place(x=getWidth(40) - 200, y=getHeight(3))
+explorerLabel = Label(frameExplorer, text='Click button to explore data in the map', font=('Arial', 14), bg='#28527a',
+                      fg='white')
+explorerLabel2 = Label(frameExplorer, text='Data imported can now be explored in the map', font=('Arial', 12),
+                       bg='#28527a', fg='white')
+explorerLabel2.place(x=getWidth(40) - 200, y=getHeight(3))
+explorerLabel.place(x=getWidth(40) - 200, y=getHeight(8))
 # explorerLabel.grid(row=0, columnspan=2, pady=15, padx = 15)
 # buttonExecute.grid(row=1, column = 0)
 # frameExplorer.grid(row = 1, column = 0)
 
-# Frame Acquisition
-buttonAcquire = Button(frameAcquisition, text="Acquire Data", command=acquire, fg='black', bg='aqua')
-buttonAcquire.update()
-frameAcquisition.update()
-buttonAcquire.place(x=widthOfWindow / 2 - 150, y=heightOfWindow / 2 - 110)
-acquireLabel = Label(frameAcquisition, text='WELCOME TO THE COVID 19 MODELER APP', font=('Arial', 22))
-acquireLabel2 = Label(frameAcquisition, text='To start any analyse, you need to acquire data. Click on the button '
-                                             'below to get all data for analysis', font=('Arial', 17))
-acquireLabel.place(x=getWidth(40) - 350, y=getHeight(2))
-acquireLabel2.place(x=getWidth(40) - 500, y=getHeight(11))
+# Frame analyser
+
+# Frame explorer
+
+buttonAnalyse = Button(frameAnalyser, text="Analyse", command=analyse, bg='#00a1ff', fg='white')
+frameExplorer.update()
+buttonAnalyse.place(x=widthOfWindow / 2 - 150, y=heightOfWindow / 2 - 110)
+analyserLabel = Label(frameAnalyser, text='Click button to analyse data in the map', font=('Arial', 14), bg='#28527a',
+                      fg='white')
+analyserLabel2 = Label(frameAnalyser, text='Data imported can now be explored in the map', font=('Arial', 12),
+                       bg='#28527a', fg='white')
+analyserLabel2.place(x=getWidth(40) - 200, y=getHeight(3))
+analyserLabel.place(x=getWidth(40) - 200, y=getHeight(8))
+
+my_notebook.select(frameAcquisition)
 
 home.iconbitmap('image\icon.ico')
 
