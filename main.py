@@ -455,6 +455,18 @@ label_covid = Label(image_label, text="COVID 19 MODELER", font="Helvetica 18 bol
 label_covid.place(x=getWidth(40), y=getHeight(1))
 
 # Tabs
+style = ttk.Style()
+
+style.theme_create( "MyStyle", parent="alt", settings={
+        "TNotebook": {"configure": {"tabmargins": [2, 5, 2, 0] } },
+        "TNotebook.Tab": {"configure": {"padding": [120, 10] },}})
+
+style.theme_use("MyStyle")
+
+style.configure("TNotebook", background="white")
+style.map("TNotebook.Tab", background=[("selected", "#28527a")], foreground=[("selected", "white")])
+style.configure("TNotebook.Tab", background="white", foreground="black")
+
 my_notebook = ttk.Notebook(home)
 frameAcquisition = Frame(my_notebook, width=getWidth(80), height=getHeight(80), bg="#28527a")
 frameLoader = Frame(my_notebook, width=getWidth(80), height=getHeight(80), bg="#28527a")
@@ -538,5 +550,6 @@ acquireLabel.place(x=getWidth(40) - 350, y=getHeight(2))
 acquireLabel2.place(x=getWidth(40) - 500, y=getHeight(11))
 
 home.iconbitmap('image\icon.ico')
+
 
 home.mainloop()
