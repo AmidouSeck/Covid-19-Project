@@ -4,7 +4,7 @@ from Loader import *
 
 # x axis values
 p = Loader()
-res = p.progressionParRegion("touba")
+res = p.progressionParRegion("dakar")
 print(res)
 x = res[0]
 y = res[1]
@@ -13,7 +13,7 @@ y = res[1]
 plt.plot(x, y)
 
 
-# res = p.progressionCasRegion("touba")
+# res = p.evolutionCasRegion("touba")
 # x = res[0]
 # y = res[1]
 

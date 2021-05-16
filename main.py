@@ -258,7 +258,7 @@ def load():
 
             else:
                 messagebox.showinfo("Success", "Vous etes connecté", parent=home)
-                con = pymysql.connect(host="localhost", user="root", password="", database="covid", port=3308,
+                con = pymysql.connect(host="localhost", user="root", password="", database="covid", port=3306,
                                       connect_timeout=28800)
                 cur = con.cursor()
                 importFrame.destroy()
@@ -400,7 +400,7 @@ def cancels():
     if result == 'yes':
         try:
             con = pymysql.connect(host="localhost", user=user_id.get(), password=user_password.get(), database="covid",
-                                  port=3308)
+                                  port=3306)
             cur = con.cursor()
             for date in dateCom:
                 sql = f"DELETE FROM communique, localite USING communique INNER JOIN localite WHERE date = '{date}' AND localite.id_localite = communique.id_localite"
