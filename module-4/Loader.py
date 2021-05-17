@@ -26,6 +26,8 @@ class Loader:
             outputMois.append(float(x[0]))
         for x in donne:
             output.append(float(x[0]))
+        plt.plot(outputMois, output)
+        plt.show()
         return [outputMois,output]
     def progressionParRegion(self,region,annee = "2020"):
         region = region.capitalize()
@@ -37,6 +39,8 @@ class Loader:
             outputMois.append(float(x[0]))
         for x in donne:
             output.append(float(x[0]))
+        plt.plot(outputMois, output)
+        plt.show()
         return [outputMois,output]
     def evolutionCasRegion(self,region,annee = "2020"):
         res = self.progressionParRegion(region,annee)
@@ -49,6 +53,8 @@ class Loader:
         while i < len(x) - 1:
             differences.append(abs(x[i] - y[i+1]))
             i = i + 1
+        plt.plot(mois, differences)
+        plt.show()
         return [mois,differences]
     def getClosestRegion(self,region):
         region = region.capitalize()
@@ -69,19 +75,29 @@ class Loader:
         res_x = self.afficher(f"select st_x(coor) + 10 from geo where region = '{region}'")
         res_y = self.afficher(f"select st_y(coor) from geo where region = '{region}'")
         return [res_x[0][0],res_y[0][0]]
-    def showMap(self):
-        return 0
+    def progressionV2(self,champ):
+        result = self.afficher(f"select sum({champ}),MONTH(date),YEAR(date) from communique  where MONTH(date) > 0 and YEAR(date) > 0 group by MONTH(date),YEAR(date) order by YEAR(date),MONTH(date)")
+        x = []
+        y = []
+        xticks = []
+        i = 0
+        for elem in result :
+            x.append(i)
+            y.append(int(elem[0]))
+            print(elem[0])
+            xticks.append(str(elem[1]) + "-" + str(elem[2]))
+            i += 1
 
+        plt.title(f"progression {champ}")
+        plt.xticks(x, xticks)
+        plt.plot(x, y)
+        plt.show()
+        return result
 
 l = Loader();
+x = l.progressionV2("testRealises")
 
-region = "Dakar"
-x = l.getCoords(region)
-y = l.getClosestRegionWithHighestCases(region,2020,5,13)
-z = l.getCoords(y)
-print(x)
-print(y)
-print(z)
+
 
 
 

@@ -1,7 +1,7 @@
 city,lat,lng,country,iso2,admin_name,capital,population,population_proper
 Dakar,14.7319,-17.4572,Senegal,SN,Dakar,primary,1146053,1146053
 Thiès,14.7833,-16.9167,Senegal,SN,Thiès,admin,293001,293001
-Rufisque,14.7167,-17.2667,Senegal,SN,Dakar,,221066,221066
+Rufisque,14.6000,-17.2667,Senegal,SN,Dakar,,221066,221066
 Ziguinchor,12.5833,-16.2667,Senegal,SN,Ziguinchor,admin,205294,205294
 Saint-Louis,16.0333,-16.5000,Senegal,SN,Saint-Louis,admin,176000,176000
 Kaolack,14.1520,-16.0726,Senegal,SN,Kaolack,admin,172305,172305

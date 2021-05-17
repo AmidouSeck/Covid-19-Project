@@ -5,14 +5,12 @@ import json
 import mysql.connector
 import geopandas as gpd
 from matplotlib.widgets import Slider, Button
-
+from Loader import  *
 
 class Carte:
     slidersOn = False
-    an = None
+
     def annotate(self):
-        if self.an is not None:
-            self.an = None
         i = 0
         while i < len(self.def_geo.city):
             point = self.def_geo.geometry[i]
@@ -74,12 +72,22 @@ class Carte:
         self.plotMap()
         self.afficher_sql(annee, mois, jour)
         self.annotate()
-        if self.slidersOn == False:
-            self.addSliders()
-        if sliderEvent == True:
-            plt.draw()
-        else:
-            plt.show()
+        plt.show()
+    def sourceContamination(self,region,annee,mois,jour):
+        region = region.capitalize()
+        l = Loader()
+        source = l.getClosestRegionWithHighestCases(region,annee,mois,jour)
+        coor_region = l.getCoords(region)
+        coor_source = l.getCoords(source)
+        print(coor_source)
+        print(coor_region)
+        self.plotMap()
+        self.afficher_sql(annee, mois, jour)
+        self.annotate()
+        # a = gpd.points_from_xy([coor_source[0]],[coor_source[1]])
+        # b = gpd.points_from_xy([coor_region[0]],[coor_region[1]])
+        plt.arrow(self.def_geo.lat[0],self.def_geo.lng[0],self.def_geo.lat[2],self.def_geo.lng[2])
+        plt.show()
 
     def afficher_sql(self, annee, mois, jour):
         print(annee, mois, jour)
