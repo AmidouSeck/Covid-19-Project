@@ -541,4 +541,4 @@ for i in newlist:
 for f in glob.glob('*.json'):
     shutil.move(f, 'JSON')
 #IL NE RESTE QU'A TRADUIRE LES TEXTES PRINT DANS LA CONSOLE EN JSON AVEC LES CHAMPS ENUMERES DANS LE DOCUMENT DU PROF
-print('-----------ACQUISITION ENDED SUCCESSFULLY-----------)
+print('-----------ACQUISITION ENDED SUCCESSFULLY-----------')
