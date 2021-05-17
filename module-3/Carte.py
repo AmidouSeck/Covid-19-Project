@@ -10,6 +10,7 @@ from matplotlib.widgets import Slider, Button
 class Carte:
     slidersOn = False
     an = None
+    annotations = []
     def annotate(self):
         if self.an is not None:
             self.an = None
@@ -20,16 +21,27 @@ class Carte:
             x = self.def_geo.lng[i]
             y = self.def_geo.lat[i]
             cas = self.mydict.get(city)
-            print(city)
             if cas is None:
                 cas = 0
             self.an = self.axis.annotate(city + " : " + str(cas), xy=(x, y - 0.09))
-            print(self.an)
+            self.annotations.append(self.an)
             i += 1
+    def updateAnnotations(self,annee,mois,jour):
+        self.afficher_sql(annee,mois,jour)
+        print("-----------------------------")
+        for a in self.annotations:
+            city = a.get_text().split(":")[0].strip()
+            new_number = self.mydict.get(city)
+            if new_number is None:
+                new_number = 0
+            new_text = f"{city}:{new_number}"
+            a.set_text(new_text)
+        print("----------------------------")
+        plt.draw()
 
     def plotMap(self):
-        file = os.path.join(os.getcwd(),"module-3","senegal_administrative", "senegal_administrative.shp")
-        cities_file = os.path.join(os.getcwd(),"module-3","senegal_administrative", "sn.csv")
+        file = os.path.join("senegal_administrative", "senegal_administrative.shp")
+        cities_file = os.path.join("senegal_administrative", "sn.csv")
         cities = pd.read_csv(cities_file)
         map = gpd.read_file(file)
         self.axis = map.plot(color='lightblue', figsize=(20, 20), linewidth=1, edgecolor="black")
@@ -46,21 +58,15 @@ class Carte:
 
         def setMois(val):
             self.mois = int(val)
-            self.afficher_sql(self.annee, self.mois, self.jour)
-            self.annotate()
-            plt.show()
+            self.updateAnnotations(self.annee,self.mois,self.jour)
 
         def setJour(val):
             self.jour = int(val)
-            self.afficher_sql(self.annee, self.mois, self.jour)
-            self.annotate()
-            plt.show()
+            self.updateAnnotations(self.annee,self.mois,self.jour)
 
         def setAnnee(val):
             self.annee = int(val)
-            self.afficher_sql(self.annee, self.mois, self.jour)
-            self.annotate()
-            plt.show()
+            self.updateAnnotations(self.annee,self.mois,self.jour)
 
         self.BarreAnnee.on_changed(setAnnee)
         self.BarreJour.on_changed(setJour)
@@ -98,3 +104,5 @@ class Carte:
             self.mydict[f"{x[0]}"] = x[1]
         print(self.mydict)
 
+c = Carte()
+c.show(2020,4,16)
