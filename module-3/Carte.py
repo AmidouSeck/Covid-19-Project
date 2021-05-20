@@ -5,6 +5,8 @@ import json
 import mysql.connector
 import geopandas as gpd
 from matplotlib.widgets import Slider, Button
+from Subgraph import *
+import contextily as ctx
 
 
 class Carte:
@@ -40,13 +42,14 @@ class Carte:
         plt.draw()
 
     def plotMap(self):
-        file = os.path.join("senegal_administrative", "senegal_administrative.shp")
-        cities_file = os.path.join("senegal_administrative", "sn.csv")
+        file = os.path.join(os.getcwd(),"module-3","senegal_administrative", "senegal_administrative.shp")
+        cities_file = os.path.join(os.getcwd(),"module-3","senegal_administrative", "sn.csv")
         cities = pd.read_csv(cities_file)
         map = gpd.read_file(file)
-        self.axis = map.plot(color='lightblue', figsize=(20, 20), linewidth=1, edgecolor="black")
+        self.axis = map.plot(color='lightblue', figsize=(20, 20), linewidth=1, edgecolor="black",cmap='RdBu',scheme='quantiles')
         self.def_geo = gpd.GeoDataFrame(cities, geometry=gpd.points_from_xy(cities.lng, cities.lat))
         self.def_geo.plot(ax=self.axis, color="red")
+
 
     def addSliders(self):
         axSlider1 = plt.axes([0.1, 0.85, 0.8, 0.02])
@@ -72,7 +75,21 @@ class Carte:
         self.BarreJour.on_changed(setJour)
         self.BarreMois.on_changed(setMois)
         self.slidersOn = True
-
+    def on_click(self,event):
+        global ix, iy
+        ix, iy = event.xdata, event.ydata
+        print
+        'x = %d, y = %d' % (
+            ix, iy)
+        global coords
+        coords = [iy - 10,ix]
+        print(coords)
+        iy = iy - 10
+        q = f"select  region,  st_distance(coor,ST_GeomFromText('point({iy} {ix})')) as distance  from geo  order by distance limit 1"
+        result = self.query(q)
+        sb = Subgraph(result[0][0],self.annee,self.mois,self.jour)
+        sb.plot()
+        return coords
     def show(self, annee, mois, jour, sliderEvent=False):
         self.annee = annee
         self.jour = jour
@@ -85,8 +102,18 @@ class Carte:
         if sliderEvent == True:
             plt.draw()
         else:
+            plt.connect('button_press_event', self.on_click)
             plt.show()
-
+    def query(self,query):
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            database="covid"
+        )
+        self.mycursor = mydb.cursor()
+        self.mycursor.execute(query)
+        myresult = self.mycursor.fetchall()
+        return myresult
     def afficher_sql(self, annee, mois, jour):
         print(annee, mois, jour)
         mydb = mysql.connector.connect(

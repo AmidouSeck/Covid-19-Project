@@ -1,6 +1,6 @@
 city,lat,lng,country,iso2,admin_name,capital,population,population_proper
 Dakar,14.7319,-17.4572,Senegal,SN,Dakar,primary,1146053,1146053
-Thiès,14.7833,-16.9167,Senegal,SN,Thiès,admin,293001,293001
+Thies,14.7833,-16.9167,Senegal,SN,Thiès,admin,293001,293001
 Rufisque,14.6000,-17.2667,Senegal,SN,Dakar,,221066,221066
 Ziguinchor,12.5833,-16.2667,Senegal,SN,Ziguinchor,admin,205294,205294
 Saint-Louis,16.0333,-16.5000,Senegal,SN,Saint-Louis,admin,176000,176000
@@ -11,7 +11,7 @@ Louga,15.6167,-16.2167,Senegal,SN,Louga,admin,85075,85075
 Tambacounda,13.7689,-13.6672,Senegal,SN,Tambacounda,admin,78800,78800
 Kolda,12.8958,-14.9408,Senegal,SN,Kolda,admin,62258,62258
 Fatick,14.3167,-16.4167,Senegal,SN,Fatick,admin,24243,24243
-Kédougou,12.5556,-12.1807,Senegal,SN,Kédougou,admin,18226,17922
+Kedougou,12.5556,-12.1807,Senegal,SN,Kédougou,admin,18226,17922
 Kaffrine,14.1016,-15.5467,Senegal,SN,Kaffrine,admin,,
-Sédhiou,12.7081,-15.5569,Senegal,SN,Sédhiou,admin,,
+Sedhiou,12.7081,-15.5569,Senegal,SN,Sédhiou,admin,,
 Matam,15.6167,-13.3333,Senegal,SN,Matam,admin,,

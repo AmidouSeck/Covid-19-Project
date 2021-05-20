@@ -1,5 +1,7 @@
 from Carte import *
+from Loader import *
 
 c = Carte()
-
-c.sourceContamination("Dakar",2020,4,16)
+l = Loader()
+l.progressionV2("casPositifs")
+# c.sourceContamination("Dakar",2020,4,16)

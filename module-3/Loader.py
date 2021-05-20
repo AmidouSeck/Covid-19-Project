@@ -27,8 +27,6 @@ class Loader:
             outputMois.append(float(x[0]))
         for x in donne:
             output.append(float(x[0]))
-        plt.plot(outputMois, output)
-        plt.show()
         return [outputMois,output]
     def progressionParRegion(self,region,annee = "2020"):
         region = region.capitalize()

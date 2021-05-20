@@ -26,45 +26,13 @@ class Carte:
             i += 1
 
     def plotMap(self):
-        file = os.path.join(os.getcwd(),"module-4","senegal_administrative", "senegal_administrative.shp")
-        cities_file = os.path.join(os.getcwd(),"module-4","senegal_administrative", "sn.csv")
+        file = os.path.join("senegal_administrative", "senegal_administrative.shp")
+        cities_file = os.path.join("senegal_administrative", "sn.csv")
         cities = pd.read_csv(cities_file)
         map = gpd.read_file(file)
         self.axis = map.plot(color='lightblue', figsize=(20, 20), linewidth=1, edgecolor="black")
         self.def_geo = gpd.GeoDataFrame(cities, geometry=gpd.points_from_xy(cities.lng, cities.lat))
         self.def_geo.plot(ax=self.axis, color="red")
-
-    def addSliders(self):
-        axSlider1 = plt.axes([0.1, 0.85, 0.8, 0.02])
-        axSlider2 = plt.axes([0.1, 0.87, 0.8, 0.02])
-        axSlider3 = plt.axes([0.1, 0.89, 0.8, 0.02])
-        self.BarreMois = Slider(axSlider1, "Mois", valmin=1, valmax=12, valfmt="%0.0f")
-        self.BarreAnnee = Slider(axSlider2, "Annee", valmin=2019, valmax=2021, valfmt="%0.0f")
-        self.BarreJour = Slider(axSlider3, "Jour", valmin=1, valmax=31, valfmt="%0.0f")
-
-        def setMois(val):
-            self.mois = int(val)
-            self.afficher_sql(self.annee, self.mois, self.jour)
-            self.annotate()
-            plt.show()
-
-        def setJour(val):
-            self.jour = int(val)
-            self.afficher_sql(self.annee, self.mois, self.jour)
-            self.annotate()
-            plt.show()
-
-        def setAnnee(val):
-            self.annee = int(val)
-            self.afficher_sql(self.annee, self.mois, self.jour)
-            self.annotate()
-            plt.show()
-
-        self.BarreAnnee.on_changed(setAnnee)
-        self.BarreJour.on_changed(setJour)
-        self.BarreMois.on_changed(setMois)
-        self.slidersOn = True
-
     def show(self, annee, mois, jour, sliderEvent=False):
         self.annee = annee
         self.jour = jour
@@ -84,10 +52,10 @@ class Carte:
         self.plotMap()
         self.afficher_sql(annee, mois, jour)
         self.annotate()
-        # a = gpd.points_from_xy([coor_source[0]],[coor_source[1]])
-        # b = gpd.points_from_xy([coor_region[0]],[coor_region[1]])
-        plt.arrow(self.def_geo.lat[0],self.def_geo.lng[0],self.def_geo.lat[2],self.def_geo.lng[2])
+
+        # plt.arrow(self.def_geo.lat[0], self.def_geo.lng[0], self.def_geo.lat[2], self.def_geo.lng[2])
         plt.show()
+
 
     def afficher_sql(self, annee, mois, jour):
         print(annee, mois, jour)
