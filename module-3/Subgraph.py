@@ -18,7 +18,7 @@ class Subgraph:
             cas = 0
         else:
             cas = cas[0][0]
-        self.addTitle(f"{self.title} : {cas}")
+        self.addTitle(f"{self.title} : {cas} cas le {self.annee}-{self.mois}-{self.jour}")
         self.addButton()
 
 

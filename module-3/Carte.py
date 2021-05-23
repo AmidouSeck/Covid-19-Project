@@ -11,6 +11,7 @@ import contextily as ctx
 
 class Carte:
     slidersOn = False
+    sliderEvent = False
     an = None
     annotations = []
     def annotate(self):
@@ -42,40 +43,47 @@ class Carte:
         plt.draw()
 
     def plotMap(self):
-        file = os.path.join("senegal_administrative", "senegal_administrative.shp")
+        file = os.path.join("senegal_administrative", "Limite_des_régions.shp")
         cities_file = os.path.join("senegal_administrative", "sn.csv")
         cities = pd.read_csv(cities_file)
-        map = gpd.read_file(file)
-        self.axis = map.plot(color='lightblue', figsize=(20, 20), linewidth=1, edgecolor="black",cmap='RdBu',scheme='quantiles')
+        self.map = gpd.read_file(file)
+        # self.map = self.map.to_crs(epsg=3857)
+        self.axis = self.map.plot(figsize=(10, 10), alpha=0.05, edgecolor="red")
         self.def_geo = gpd.GeoDataFrame(cities, geometry=gpd.points_from_xy(cities.lng, cities.lat))
-        self.def_geo.plot(ax=self.axis, color="red")
-
-
+        # self.def_geo.plot(ax=self.axis, color="red")
+        ctx.add_basemap(self.axis, source="Senegal.tif", alpha=0.6, zorder=8, crs='epsg:4326',zoom=12)
+        # ctx.add_basemap(self.axis)
     def addSliders(self):
-        axSlider1 = plt.axes([0.1, 0.85, 0.8, 0.02])
-        axSlider2 = plt.axes([0.1, 0.87, 0.8, 0.02])
-        axSlider3 = plt.axes([0.1, 0.89, 0.8, 0.02])
-        self.BarreMois = Slider(axSlider1, "Mois", valmin=1, valmax=12, valfmt="%0.0f")
-        self.BarreAnnee = Slider(axSlider2, "Annee", valmin=2019, valmax=2021, valfmt="%0.0f")
-        self.BarreJour = Slider(axSlider3, "Jour", valmin=1, valmax=31, valfmt="%0.0f")
+        axSlider1 = plt.axes([0.1, 0.93, 0.8, 0.02])
+        axSlider2 = plt.axes([0.1, 0.95, 0.8, 0.02])
+        axSlider3 = plt.axes([0.1, 0.97, 0.8, 0.02])
+        self.BarreMois = Slider(axSlider1, "Mois", valmin=1, valmax=12, valfmt="%0.0f",valinit=self.mois)
+        self.BarreAnnee = Slider(axSlider2, "Annee", valmin=2019, valmax=2021, valfmt="%0.0f",valinit=self.annee)
+        self.BarreJour = Slider(axSlider3, "Jour", valmin=1, valmax=31, valfmt="%0.0f",valinit=self.jour)
 
         def setMois(val):
             self.mois = int(val)
             self.updateAnnotations(self.annee,self.mois,self.jour)
+            self.sliderEvent = True
 
         def setJour(val):
             self.jour = int(val)
             self.updateAnnotations(self.annee,self.mois,self.jour)
+            self.sliderEvent = True
 
         def setAnnee(val):
             self.annee = int(val)
             self.updateAnnotations(self.annee,self.mois,self.jour)
+            self.sliderEvent = True
 
         self.BarreAnnee.on_changed(setAnnee)
         self.BarreJour.on_changed(setJour)
         self.BarreMois.on_changed(setMois)
         self.slidersOn = True
     def on_click(self,event):
+        if self.sliderEvent == True:
+            self.sliderEvent = False
+            return
         global ix, iy
         ix, iy = event.xdata, event.ydata
         print
@@ -87,6 +95,9 @@ class Carte:
         iy = iy - 10
         q = f"select  region,  st_distance(coor,ST_GeomFromText('point({iy} {ix})')) as distance  from geo  order by distance limit 1"
         result = self.query(q)
+        print(self.annee)
+        print(self.mois)
+        print(self.jour)
         sb = Subgraph(result[0][0],self.annee,self.mois,self.jour)
         sb.plot()
         return coords
@@ -96,7 +107,7 @@ class Carte:
         self.mois = mois
         self.plotMap()
         self.afficher_sql(annee, mois, jour)
-        self.annotate()
+        # self.annotate()
         if self.slidersOn == False:
             self.addSliders()
         if sliderEvent == True:
