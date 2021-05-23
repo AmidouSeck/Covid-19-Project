@@ -43,8 +43,8 @@ class Carte:
         plt.draw()
 
     def plotMap(self):
-        file = os.path.join("senegal_administrative", "Limite_des_régions.shp")
-        cities_file = os.path.join("senegal_administrative", "sn.csv")
+        file = os.path.join(os.getcwd(),"module-3","senegal_administrative", "Limite_des_régions.shp")
+        cities_file = os.path.join(os.getcwd(),"module-3","senegal_administrative", "sn.csv")
         cities = pd.read_csv(cities_file)
         self.map = gpd.read_file(file)
         # self.map = self.map.to_crs(epsg=3857)
