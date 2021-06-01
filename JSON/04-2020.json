@@ -1,0 +1,843 @@
+[
+    {
+        "date": "16/04/2020",
+        "casPositifs": 21,
+        "casImportes": 0,
+        "casContacts": 19,
+        "testRealises": 435,
+        "sousTraitement": 138,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 16,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "10/04/2020",
+        "casPositifs": 15,
+        "casImportes": 0,
+        "casContacts": 15,
+        "testRealises": 195,
+        "sousTraitement": 125,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 0,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "30/04/2020",
+        "casPositifs": 51,
+        "casImportes": 0,
+        "casContacts": 40,
+        "testRealises": 1161,
+        "sousTraitement": 589,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 30,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 1,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "22/04/2020",
+        "casPositifs": 30,
+        "casImportes": 0,
+        "casContacts": 26,
+        "testRealises": 482,
+        "sousTraitement": 182,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 22,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 4,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "28/04/2020",
+        "casPositifs": 87,
+        "casImportes": 0,
+        "casContacts": 86,
+        "testRealises": 873,
+        "sousTraitement": 517,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 28,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "29/04/2020",
+        "casPositifs": 59,
+        "casImportes": 0,
+        "casContacts": 51,
+        "testRealises": 800,
+        "sousTraitement": 0,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 29,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 1,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "26/04/2020",
+        "casPositifs": 57,
+        "casImportes": 0,
+        "casContacts": 47,
+        "testRealises": 579,
+        "sousTraitement": 380,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 26,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 2,
+                "Kolda": 0,
+                "Tamba": 4,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "27/04/2020",
+        "casPositifs": 64,
+        "casImportes": 0,
+        "casContacts": 50,
+        "testRealises": 677,
+        "sousTraitement": 442,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 27,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 6,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 1,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "25/04/2020",
+        "casPositifs": 69,
+        "casImportes": 0,
+        "casContacts": 63,
+        "testRealises": 703,
+        "sousTraitement": 330,
+        "casCommunautaires": 6,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 25,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "23/04/2020",
+        "casPositifs": 37,
+        "casImportes": 0,
+        "casContacts": 29,
+        "testRealises": 387,
+        "sousTraitement": 215,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 23,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 5,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "24/04/2020",
+        "casPositifs": 66,
+        "casImportes": 0,
+        "casContacts": 61,
+        "testRealises": 528,
+        "sousTraitement": 276,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 1,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 4,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "20/04/2020",
+        "casPositifs": 10,
+        "casImportes": 0,
+        "casContacts": 5,
+        "testRealises": 281,
+        "sousTraitement": 136,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 0,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 4,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "21/04/2020",
+        "casPositifs": 35,
+        "casImportes": 0,
+        "casContacts": 34,
+        "testRealises": 466,
+        "sousTraitement": 164,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 24,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "05/04/2020",
+        "casPositifs": 3,
+        "casImportes": 0,
+        "casContacts": 0,
+        "testRealises": 92,
+        "sousTraitement": 137,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 5,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "03/04/2020",
+        "casPositifs": 12,
+        "casImportes": 0,
+        "casContacts": 10,
+        "testRealises": 177,
+        "sousTraitement": 144,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 0,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "07/04/2020",
+        "casPositifs": 11,
+        "casImportes": 0,
+        "casContacts": 9,
+        "testRealises": 110,
+        "sousTraitement": 129,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 0,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "06/04/2020",
+        "casPositifs": 4,
+        "casImportes": 0,
+        "casContacts": 0,
+        "testRealises": 95,
+        "sousTraitement": 131,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 33,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "18/04/2020",
+        "casPositifs": 8,
+        "casImportes": 0,
+        "casContacts": 3,
+        "testRealises": 226,
+        "sousTraitement": 135,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 1,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "03/04/2020",
+        "casPositifs": 12,
+        "casImportes": 0,
+        "casContacts": 5,
+        "testRealises": 153,
+        "sousTraitement": 139,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 3,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "19/04/2020",
+        "casPositifs": 17,
+        "casImportes": 0,
+        "casContacts": 15,
+        "testRealises": 313,
+        "sousTraitement": 143,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 19,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "02/04/2020",
+        "casPositifs": 5,
+        "casImportes": 2,
+        "casContacts": 3,
+        "testRealises": 127,
+        "sousTraitement": 138,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 2,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "17/04/2020",
+        "casPositifs": 7,
+        "casImportes": 0,
+        "casContacts": 0,
+        "testRealises": 287,
+        "sousTraitement": 141,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 17,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "14/04/2020",
+        "casPositifs": 8,
+        "casImportes": 0,
+        "casContacts": 6,
+        "testRealises": 272,
+        "sousTraitement": 113,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 14,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "15/04/2020",
+        "casPositifs": 15,
+        "casImportes": 0,
+        "casContacts": 14,
+        "testRealises": 227,
+        "sousTraitement": 121,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 15,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "12/04/2020",
+        "casPositifs": 2,
+        "casImportes": 0,
+        "casContacts": 0,
+        "testRealises": 104,
+        "sousTraitement": 106,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 12,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "09/04/2020",
+        "casPositifs": 6,
+        "casImportes": 0,
+        "casContacts": 6,
+        "testRealises": 199,
+        "sousTraitement": 124,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 9,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "13/04/2020",
+        "casPositifs": 11,
+        "casImportes": 0,
+        "casContacts": 10,
+        "testRealises": 144,
+        "sousTraitement": 110,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 18,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "08/04/2020",
+        "casPositifs": 7,
+        "casImportes": 0,
+        "casContacts": 0,
+        "testRealises": 108,
+        "sousTraitement": 128,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 8,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
+        "date": "11/04/2020",
+        "casPositifs": 13,
+        "casImportes": 0,
+        "casContacts": 12,
+        "testRealises": 173,
+        "sousTraitement": 123,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 11,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 0,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    }
+]

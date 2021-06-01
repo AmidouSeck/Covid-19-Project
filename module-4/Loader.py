@@ -6,6 +6,7 @@ from matplotlib.widgets import Button
 import csv
 import functools
 
+
 regions = ["Dakar","Thies","Diourbel","Fatick","Kaolack","Kaffrine","Touba","Kolda","Tamba","Ziguinchor","SaintLouis","Matam","Sedhiou","Kedougou","Louga","Tambacounda"]
 
 class Loader:
@@ -30,7 +31,6 @@ class Loader:
         for x in donne:
             output.append(float(x[0]))
         plt.plot(outputMois, output)
-
         axdump = plt.axes([0.81, 0.9, 0.15, 0.075])
         bDump = Button(axdump, 'Dump')
         bDump.on_clicked(lambda x: self.sqlToCSV(donne))
@@ -69,11 +69,9 @@ class Loader:
             differences.append(abs(x[i] - y[i+1]))
             i = i + 1
         plt.plot(mois, differences)
-
         axdump = plt.axes([0.81, 0.9, 0.15, 0.075])
         bDump = Button(axdump, 'Dump')
         bDump.on_clicked(lambda x: self.sqlToCSV(res))
-
         plt.show()
         return [mois,differences]
     def getClosestRegion(self,region):
@@ -107,15 +105,12 @@ class Loader:
         xticks = []
         i = 0
 
-
         for elem in result :
             x.append(i)
             y.append(int(elem[0]))
             print(elem[0])
             xticks.append(str(elem[1]) + "-" + str(elem[2]))
             i += 1
-
-
         plt.title(f"progression {champ}")
         plt.xticks(x, xticks)
         plt.plot(x, y)
@@ -127,7 +122,5 @@ class Loader:
 
         plt.show()
         return result
-
-
 
 
