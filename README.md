@@ -26,7 +26,8 @@ Module d'analyse et d'interprétation des données insérées pour suivre l'évo
 
 ### Installation
 
-Je mettrais ici les commandes nécessaires pour l'intallation du projet.
+Pour l'installations de l'ensemble des packages utilisés dans ce projet saisir la commande ci-dessous:
+pip install -r requirements.txt
 
 ## Démarrage
 
