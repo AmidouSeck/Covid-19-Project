@@ -7,7 +7,7 @@ Covid-19 Progression Modeler est un projet visant à regrouper et analyser les d
 ## Pour commencer
 ##Lien du tutoriel Youtube
 
-https://youtu.be/WKdwp0L9maE
+https://youtu.be/fpmhw1LNXkU
 
 ## Le Modéle Physique de Données
 ![alt text](https://github.com/AmidouSeck/Covid-19-Project/blob/dec813d478c0fb1beacdbf2080aa48b389e7508a/mpd.PNG?raw=true)
