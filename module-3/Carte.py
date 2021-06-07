@@ -51,7 +51,8 @@ class Carte:
         self.axis = self.map.plot(figsize=(10, 10), alpha=0.05, edgecolor="red")
         self.def_geo = gpd.GeoDataFrame(cities, geometry=gpd.points_from_xy(cities.lng, cities.lat))
         # self.def_geo.plot(ax=self.axis, color="red")
-        ctx.add_basemap(self.axis, source="Senegal.tif", alpha=0.6, zorder=8, crs='epsg:4326',zoom=12)
+        tifFilePath = os.path.join(os.getcwd(), "module-3", "Senegal.tif")
+        ctx.add_basemap(self.axis, source=tifFilePath, alpha=0.6, zorder=8, crs='epsg:4326',zoom=12)
         # ctx.add_basemap(self.axis)
     def addSliders(self):
         axSlider1 = plt.axes([0.1, 0.93, 0.8, 0.02])
