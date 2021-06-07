@@ -186,18 +186,18 @@ url = ['http://www.sante.gouv.sn/sites/default/files/COMMUNIQUE%2022%20du%2023%2
 headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) '\
            'AppleWebKit/537.36 (KHTML, like Gecko) '\
            'Chrome/75.0.3770.80 Safari/537.36'}
-#for i in url:
- #   try:
- #     print ('Starting to Download!')
- #     r = requests.get(i, headers=headers)
- #     #r.status_code
-  #    filename = i.split('/')[-1]
- #     with open(filename, 'wb') as out_file:
- #       out_file.write(r.content)
- #     print("Download complete!")
- #     r.raise_for_status()
-  #  except Exception as e:
-  #    print(e)
+for i in url:
+    try:
+      print ('Starting to Download!')
+      r = requests.get(i, headers=headers)
+      #r.status_code
+      filename = i.split('/')[-1]
+      with open(filename, 'wb') as out_file:
+        out_file.write(r.content)
+      print("Download complete!")
+      r.raise_for_status()
+    except Exception as e:
+      print(e)
 
 # MOVE ALL DOWNLOADED PDF FILES TO PDF FOLDER
 for f in glob.glob('*.pdf'):
@@ -541,4 +541,4 @@ for i in newlist:
 for f in glob.glob('*.json'):
     shutil.move(f, 'JSON')
 #IL NE RESTE QU'A TRADUIRE LES TEXTES PRINT DANS LA CONSOLE EN JSON AVEC LES CHAMPS ENUMERES DANS LE DOCUMENT DU PROF
-print('---------Acquistion Ended Successfully--------')
+print('-----------ACQUISITION ENDED SUCCESSFULLY-----------')
