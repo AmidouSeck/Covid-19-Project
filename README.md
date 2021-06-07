@@ -5,6 +5,9 @@
 Covid-19 Progression Modeler est un projet visant à regrouper et analyser les données issues de la pandémie pour la compréhension de sa diffusion dans le territoire sénégalais
 
 ## Pour commencer
+##Lien du tutoriel Youtube
+
+https://youtu.be/JOD2_5t-njY
 
 ## Le Modéle Physique de Données
 ![alt text](https://github.com/AmidouSeck/Covid-19-Project/blob/dec813d478c0fb1beacdbf2080aa48b389e7508a/mpd.PNG?raw=true)
