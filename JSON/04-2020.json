@@ -116,6 +116,35 @@
         ]
     },
     {
+        "date": "22/04/2020",
+        "casPositifs": 30,
+        "casImportes": 0,
+        "casContacts": 26,
+        "testRealises": 482,
+        "sousTraitement": 182,
+        "casCommunautaires": 0,
+        "casGueris": 0,
+        "deces": 0,
+        "localites": [
+            {
+                "Dakar": 22,
+                "Thies": 0,
+                "Diourbel": 0,
+                "Fatick": 0,
+                "Kaolack": 0,
+                "Kaffrine": 0,
+                "Touba": 4,
+                "Kolda": 0,
+                "Tamba": 0,
+                "Ziguinchor": 0,
+                "Saint-Louis": 0,
+                "Matam": 0,
+                "Sedhiou": 0,
+                "Kedougou": 0
+            }
+        ]
+    },
+    {
         "date": "28/04/2020",
         "casPositifs": 87,
         "casImportes": 0,
