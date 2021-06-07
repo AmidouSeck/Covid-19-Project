@@ -36,11 +36,8 @@ con = pymysql.connect(host="localhost", user="root", password="", database="covi
 cur = con.cursor()
 
 
-# con.query('SET GLOBAL connect_timeout=28800')
-# con.query('SET GLOBAL interactive_timeout=28800')
-# con.query('SET GLOBAL wait_timeout=28800')
 
-# Functions
+## Functions
 
 # help function
 
@@ -126,6 +123,7 @@ def browseFiles():
     labfilename.configure(text="File Opened: " + filename)
     if filename != None:
         openFile(filename)
+        print(filename)
 
 
 def openFile(filename):
@@ -137,8 +135,8 @@ def openFile(filename):
         for i in data:
             date = i["date"]
             days.append(date[:2])
-        # if chbudraw == True:
-        #     destroyChButton()
+        # remove duplicates
+        days = list(dict.fromkeys(days))
         checkboxDraw(days)
 
 
@@ -277,7 +275,7 @@ def load():
                 messagebox.showerror("Erreur", "Identifiant ou mot de passe invalide", parent=home)
 
             else:
-                messagebox.showinfo("Success", "Vous etes connecté", parent=home)
+                messagebox.showinfo("Success", "Authentication succeeded", parent=home)
                 con = pymysql.connect(host="localhost", user="root", password="", database="covid",
                                       connect_timeout=28800)
                 cur = con.cursor()
@@ -325,6 +323,7 @@ def extractData(date):
 def sqlQuery(*args):
     global con
     global cur
+    requestControl = True
     if len(args) == 0:
         valid()
     else:
@@ -357,19 +356,22 @@ def sqlQuery(*args):
                     dateCom.append(date)
             except Exception as e:
                 messagebox.showerror("Error in sqlQuery", f"Erreur in sqlQuery  due a : {str(e)}", parent=home)
+                requestControl = False
             for name, value in localites.items():
                 print(f"{name}: {value}\t")
                 if value == 0:
                     continue
                 sql2 = f"insert into localites values(null,'{name}',{value})"
-                try:
-                    cur.execute(sql2)
-                    # Apres insertion dans localites on recupere id_localite et l'inserer dans ligne_com_local
-                    sql3 = f"insert into ligne_com_local values('{date}', (select id_localite from localites order by id_localite desc limit 1))"
-                    cur.execute(sql3)
-                    messagebox.showinfo("Success", "Importation vers la base reusi", parent=home)
-                except Exception as e:
-                    messagebox.showerror("Error in sqlQuery", f"Erreur in sqlQuery  due a : {str(e)}", parent=home)
+                if requestControl:
+                    try:
+                        cur.execute(sql2)
+                        # Apres insertion dans localites on recupere id_localite et l'inserer dans ligne_com_local
+                        sql3 = f"insert into ligne_com_local values('{date}', (select id_localite from localites order by id_localite desc limit 1))"
+                        cur.execute(sql3)
+                    except Exception as e:
+                        messagebox.showerror("Error in sqlQuery", f"Erreur in sqlQuery  due a : {str(e)}", parent=home)
+        if requestControl:
+            messagebox.showinfo("Success", "Importation vers la base reusi", parent=home)
         con.commit()
         deselectAll()
         # enable validate and cancel buttons
@@ -527,7 +529,7 @@ labFileSelect.place(x=frameLoaderLeft.winfo_width() / 2, y=frameLoaderLeft.winfo
 labFileSelect.update()
 buttonFileSelect.place(x=frameLoaderLeft.winfo_width() / 2 + labFileSelect.winfo_width() + 50,
                        y=frameLoaderLeft.winfo_height() / 2)
-labfilename.place(x=frameLoaderLeft.winfo_width() / 2, y=frameLoaderLeft.winfo_height() / 2 + 60)
+labfilename.place(x=frameLoaderLeft.winfo_width() / 3, y=frameLoaderLeft.winfo_height() / 2 + 60)
 
 #       FrameLoaderRight
 frameLoaderRight.pack_propagate(0)

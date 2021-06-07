@@ -2,7 +2,7 @@
 
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)  [![forthebadge](http://forthebadge.com/images/badges/powered-by-electricity.svg)](http://forthebadge.com)
 
-Une petite description du projet en cours de rédaction
+Covid-19 Progression Modeler est un projet visant à regrouper et analyser les données issues de la pandémie pour la compréhension de sa diffusion dans le territoire sénégalais
 
 ## Pour commencer
 
@@ -12,9 +12,13 @@ Entrez ici les instructions pour bien débuter avec votre projet...
 
 
 - Data Acquisition
+  Module de téléchargement des fichiers pdf depuis le site officile du ministère de la santé afin d'extraire les données qui serviront d'analyse et de traitement.
 - Data Loader
+  Module d'insertion des données extraites depuis le module 1 dans la base MySQL avec mode AUTOCOMMIT ou TRANSACTION.
 - Data Analyzer
+Module d'analyse et d'interprétation des données insérées pour suivre l'évolution de la pandémie à travers des graphes
 - Data Explorer
+  Module pour suivre l'évolution journalière du nombre de cas des régions.
 
 ### Installation
 
